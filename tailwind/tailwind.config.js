@@ -12,7 +12,15 @@ module.exports = {
 	],
 	theme: {
 		// Extend the default Tailwind theme.
-		extend: {},
+		extend: {
+			...colors,
+			colors: {
+			'brand-main' : '#2DB566',
+			'brand-secondary' : '#545C6E',
+			'brand-accent' : '#3192C8'
+			},
+		},
+		
 	},
 	corePlugins: {
 		// Disable Preflight base styles in builds targeting the editor.

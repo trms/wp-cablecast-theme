@@ -117,6 +117,15 @@ if ( ! function_exists( 'cablecast_setup' ) ) :
 
 		// Remove support for block templates.
 		remove_theme_support( 'block-templates' );
+
+		// Add Custom logo.
+		add_theme_support( 'custom-logo', array(
+			'height'      => 100,
+			'width'       => 400,
+			'flex-height' => true,
+			'flex-width'  => true,
+			'header-text' => array( 'site-title', 'site-description' ),
+		) );
 	}
 endif;
 add_action( 'after_setup_theme', 'cablecast_setup' );
