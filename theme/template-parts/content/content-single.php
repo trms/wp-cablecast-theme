@@ -11,20 +11,20 @@
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 
-	<header class="entry-header">
-		<?php the_title( '<h1 class="entry-title">', '</h1>' ); ?>
+    <header class="entry-header">
+        <?php the_title( '<h1 class="entry-title">', '</h1>' ); ?>
 
-		<?php if ( ! is_page() ) : ?>
-			<div class="entry-meta">
-				<?php cablecast_entry_meta(); ?>
-			</div><!-- .entry-meta -->
-		<?php endif; ?>
-	</header><!-- .entry-header -->
+        <?php if ( ! is_page() ) : ?>
+        <div class="entry-meta">
+            <?php cablecast_entry_meta(); ?>
+        </div><!-- .entry-meta -->
+        <?php endif; ?>
+    </header><!-- .entry-header -->
 
-	<?php cablecast_post_thumbnail(); ?>
+    <?php cablecast_post_thumbnail(); ?>
 
-	<div <?php cablecast_content_class( 'entry-content' ); ?>>
-		<?php
+    <div <?php cablecast_content_class( 'entry-content' ); ?>>
+        <?php
 		the_content(
 			sprintf(
 				wp_kses(
@@ -47,10 +47,6 @@
 			)
 		);
 		?>
-	</div><!-- .entry-content -->
-
-	<footer class="entry-footer">
-		<?php cablecast_entry_footer(); ?>
-	</footer><!-- .entry-footer -->
+    </div><!-- .entry-content -->
 
 </article><!-- #post-${ID} -->

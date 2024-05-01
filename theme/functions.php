@@ -81,7 +81,9 @@ if ( ! function_exists( 'cablecast_setup' ) ) :
 		register_nav_menus(
 			array(
 				'menu-1' => __( 'Primary', 'cablecast' ),
-				'menu-2' => __( 'Footer Menu', 'cablecast' ),
+				'menu-2' => __( 'Footer Menu Col-1', 'cablecast' ),
+				'menu-3' => __( 'Footer Menu Col-2', 'cablecast' ),
+				'menu-4' => __( 'Footer Menu Col-3', 'cablecast' ),
 			)
 		);
 
@@ -204,3 +206,65 @@ require get_template_directory() . '/inc/template-tags.php';
  * Functions which enhance the theme by hooking into WordPress.
  */
 require get_template_directory() . '/inc/template-functions.php';
+
+function display_shows_by_category_shortcode($atts) {
+    // Extract attributes
+    $atts = shortcode_atts(array(
+        'category' => '', // Default category is empty
+    ), $atts);
+
+    // Get category from shortcode attribute
+    $category = sanitize_text_field($atts['category']);
+
+    // Initialize output variable
+    $output = '';
+
+    // Query shows based on category
+    $args = array(
+        'post_type' => 'show', // Custom post type name
+        'posts_per_page' => -1, // Retrieve all shows
+        'tax_query' => array(
+            array(
+                'taxonomy' => 'category', // Taxonomy name
+                'field' => 'name', // Query by category name
+                'terms' => $category, // Category name from shortcode attribute
+            ),
+        ),
+    );
+
+    $query = new WP_Query($args);
+	if ($query->have_posts()) {
+
+		$output .= '<div class="show-list">';
+		$output .= '<div class="flex justify-between items-center">';
+		$output .= '<h2 class="uppercase text-3xl my-4">' . $category . '</h2>';
+	
+		$output .= '<a class="!text-brand-accent no-underline hover:underline my-4" href="' . esc_url(get_post_type_archive_link('show')) . '">View All</a>';
+		$output .= '</div>';
+		$output .= '<div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">'; // 
+	
+		$counter = 0;
+
+		while ($query->have_posts() && $counter < 5) {
+			$query->the_post();
+			$output .= '<div class="flex flex-col items-center">';
+			$output .= '<a href="' . get_permalink() . '">' . get_the_post_thumbnail() . '</a>'; 
+			$output .= '<a class="!text-brand-secondary no-underline hover:underline" href="' . get_permalink() . '">' . get_the_title() . '</a>'; 
+			$output .= '</div>';
+		}
+	
+		// Reset post data
+		wp_reset_postdata();
+	
+		$output .= '</div>'; // Close the grid container
+		$output .= '</div>'; // Close the show-list container
+	} else {
+        // No shows found
+        $output .= '<p>No shows found in the ' . $category . ' category.</p>';
+    }
+
+    return $output;
+}
+
+// Register the shortcode
+add_shortcode('display_shows_by_category', 'display_shows_by_category_shortcode');
