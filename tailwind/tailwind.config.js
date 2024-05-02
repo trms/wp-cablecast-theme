@@ -1,5 +1,7 @@
 // Set the Preflight flag based on the build target.
 const includePreflight = 'editor' === process.env._TW_TARGET ? false : true;
+const colors = require('tailwindcss/colors');
+const plugin = require('tailwindcss/plugin');
 
 module.exports = {
 	presets: [
@@ -15,12 +17,11 @@ module.exports = {
 		extend: {
 			...colors,
 			colors: {
-			'brand-main' : '#2DB566',
-			'brand-secondary' : '#545C6E',
-			'brand-accent' : '#3192C8'
+				'brand-main': '#2DB566',
+				'brand-secondary': '#545C6E',
+				'brand-accent': '#3192C8',
 			},
 		},
-		
 	},
 	corePlugins: {
 		// Disable Preflight base styles in builds targeting the editor.
@@ -37,5 +38,20 @@ module.exports = {
 		// require('@tailwindcss/forms'),
 		// require('@tailwindcss/aspect-ratio'),
 		// require('@tailwindcss/container-queries'),
+		plugin(function ({ addComponents }) {
+			addComponents({
+				'.btn': {
+					padding: '.5rem 1rem',
+					fontWeight: '600',
+				},
+				'.btn-primary': {
+					backgroundColor: '#2DB566',
+					color: '#fff',
+					'&:hover': {
+						backgroundColor: '#289e5c',
+					},
+				},
+			});
+		}),
 	],
 };

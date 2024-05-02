@@ -12,5 +12,19 @@
  * editor.
 */
 body {
-	@apply bg-background text-foreground font-sans;
+	@apply bg-background text-foreground font-sans h-screen relative;
+}
+
+html {
+	position: relative;
+	min-height: 100%;
+}
+
+.btn-primary {
+	@apply bg-brand-main hover:shadow-2xl p-4;
+}
+
+.entry-title,
+.post-edit-link {
+	@apply hidden;
 }

@@ -9,44 +9,73 @@
 
 ?>
 
-<footer id="colophon">
 
-	<?php if ( is_active_sidebar( 'sidebar-1' ) ) : ?>
-		<aside role="complementary" aria-label="<?php esc_attr_e( 'Footer', 'cablecast' ); ?>">
-			<?php dynamic_sidebar( 'sidebar-1' ); ?>
-		</aside>
-	<?php endif; ?>
-
-	<?php if ( has_nav_menu( 'menu-2' ) ) : ?>
-		<nav aria-label="<?php esc_attr_e( 'Footer Menu', 'cablecast' ); ?>">
-			<?php
-			wp_nav_menu(
-				array(
-					'theme_location' => 'menu-2',
-					'menu_class'     => 'footer-menu',
-					'depth'          => 1,
-				)
-			);
-			?>
-		</nav>
-	<?php endif; ?>
-
-	<div>
-		<?php
-		$cablecast_blog_info = get_bloginfo( 'name' );
-		if ( ! empty( $cablecast_blog_info ) ) :
-			?>
-			<a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a>,
-			<?php
-		endif;
-
-		/* translators: 1: WordPress link, 2: WordPress. */
-		printf(
-			'<a href="%1$s">proudly powered by %2$s</a>.',
-			esc_url( __( 'https://wordpress.org/', 'cablecast' ) ),
-			'WordPress'
-		);
-		?>
-	</div>
-
-</footer><!-- #colophon -->
+<footer class="bg-brand-secondary absolute w-full bottom-0 h-fit py-8">
+    <div id="bottombar-container">
+        <!-- site navigation -->
+        <nav id="site-navigation" aria-label="<?php esc_attr_e( 'Main Navigation', 'cablecast' ); ?>">
+            <button class="hidden" aria-controls="primary-menu"
+                aria-expanded="false"><?php esc_html_e( 'Primary Menu', 'cablecast' ); ?></button>
+            <div
+                class="relative mx-auto flex max-w-7xl items-center justify-around md:px-8 border-b border-gray-500 pb-8">
+                <div class="">
+                    <a class="" href="/">
+                        <!-- Custom Logo -->
+                        <?php 
+							$custom_logo_id = get_theme_mod( 'custom_logo' );
+							$image = wp_get_attachment_image_src( $custom_logo_id , 'full' );
+						?>
+                        <img class="h-auto w-auto max-h-20 max-w-full" src=" <?php echo $image[0]; ?>" alt="">
+                    </a>
+                </div>
+                <div class="flex w-1/2 justify-between">
+                    <div class="text-white ">
+                        <?php
+						$locations = get_nav_menu_locations();
+						$menu = wp_get_nav_menu_object( $locations['menu-2'] );
+				wp_nav_menu(
+					array(
+						'theme_location' => 'menu-2',
+						'menu_id'        => 'footer-menu-col-1',
+						'items_wrap'     => '<div class="menu-name font-bold">' . wp_kses_post( $menu->name ) . '</div><ul id="%1$s" class="%2$s flex justify-start flex-col" aria-label="submenu">%3$s</ul>',
+					)
+				);
+				?>
+                    </div>
+                    <div class="text-white ">
+                        <?php
+						$menu = wp_get_nav_menu_object( $locations['menu-3'] );
+				wp_nav_menu(
+					array(
+						'theme_location' => 'menu-3',
+						'menu_id'        => 'footer-menu-col-2',
+						'items_wrap'     => '<div class="menu-name font-bold">' . wp_kses_post( $menu->name ) . '</div><ul id="%1$s" class="%2$s flex justify-start flex-col" aria-label="submenu">%3$s</ul>',
+					)
+				);
+				?>
+                    </div>
+                    <div class="text-white ">
+                        <?php
+						$menu = wp_get_nav_menu_object( $locations['menu-4'] );
+				wp_nav_menu(
+					array(
+						'theme_location' => 'menu-4',
+						'menu_id'        => 'footer-menu-col-3',
+						'items_wrap'     => '<div class="menu-name font-bold">' . wp_kses_post( $menu->name ) . '</div><ul id="%1$s" class="%2$s flex justify-start flex-col" aria-label="submenu">%3$s</ul>',
+					)
+				);
+				?>
+                    </div>
+                </div>
+            </div>
+        </nav><!-- #site-navigation -->
+        <div class="text-white text-center mt-4">
+            <?php
+                        // Output the footer widget area
+                        if ( is_active_sidebar( 'sidebar-1' ) ) {
+                            dynamic_sidebar( 'sidebar-1' );
+                        }
+                        ?>
+        </div>
+    </div>
+</footer>

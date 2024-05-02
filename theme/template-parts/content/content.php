@@ -11,8 +11,8 @@
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 
-	<header class="entry-header">
-		<?php
+    <header class="entry-header">
+        <?php
 		if ( is_sticky() && is_home() && ! is_paged() ) {
 			printf( '<span">%s</span>', esc_html_x( 'Featured', 'post', 'cablecast' ) );
 		}
@@ -22,12 +22,12 @@
 			the_title( sprintf( '<h2 class="entry-title"><a href="%s" rel="bookmark">', esc_url( get_permalink() ) ), '</a></h2>' );
 		endif;
 		?>
-	</header><!-- .entry-header -->
+    </header><!-- .entry-header -->
 
-	<?php cablecast_post_thumbnail(); ?>
+    <?php cablecast_post_thumbnail(); ?>
 
-	<div <?php cablecast_content_class( 'entry-content' ); ?>>
-		<?php
+    <div <?php cablecast_content_class( 'entry-content' ); ?>>
+        <?php
 		the_content();
 
 		wp_link_pages(
@@ -37,10 +37,6 @@
 			)
 		);
 		?>
-	</div><!-- .entry-content -->
-
-	<footer class="entry-footer">
-		<?php cablecast_entry_footer(); ?>
-	</footer><!-- .entry-footer -->
+    </div><!-- .entry-content -->
 
 </article><!-- #post-${ID} -->
