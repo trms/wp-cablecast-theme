@@ -10,7 +10,7 @@
 ?>
 
 
-<footer class="bg-brand-secondary absolute w-full bottom-0 h-fit py-8">
+<footer class="bg-brand-secondary realtive w-full  py-8">
     <div id="bottombar-container">
         <!-- site navigation -->
         <nav id="site-navigation" aria-label="<?php esc_attr_e( 'Main Navigation', 'cablecast' ); ?>">
