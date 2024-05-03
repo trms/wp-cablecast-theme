@@ -19,39 +19,34 @@ if ( post_password_required() ) {
 }
 ?>
 
-<div id="comments">
+<div id="comments" class="comments-area">
 
-	<?php
-	if ( have_comments() ) :
-		?>
-		<h2>
-			<?php
+    <?php if ( have_comments() ) : ?>
+    <h2 class="comments-title text-lg font-bold mb-4">
+        <?php
 			$cablecast_comment_count = get_comments_number();
 			if ( '1' === $cablecast_comment_count ) {
-				// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
 				printf(
-					/* translators: 1: title. */
 					esc_html__( 'One comment on &ldquo;%1$s&rdquo;', 'cablecast' ),
 					get_the_title()
 				);
-				// phpcs:enable WordPress.Security.EscapeOutput.OutputNotEscaped
 			} else {
-				// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
 				printf(
-					/* translators: 1: comment count number, 2: title. */
-					esc_html( _nx( '%1$s comment on &ldquo;%2$s&rdquo;', '%1$s comments on &ldquo;%2$s&rdquo;', $cablecast_comment_count, 'comments title', 'cablecast' ) ),
+					esc_html( _nx( '%1$s comments on &ldquo;%2$s&rdquo;', '%1$s comments on &ldquo;%2$s&rdquo;', $cablecast_comment_count, 'comments title', 'cablecast' ) ),
 					number_format_i18n( $cablecast_comment_count ),
 					get_the_title()
 				);
-				// phpcs:enable WordPress.Security.EscapeOutput.OutputNotEscaped
 			}
 			?>
-		</h2>
+    </h2>
 
-		<?php the_comments_navigation(); ?>
+    <nav class="comment-navigation flex justify-between mb-4" role="navigation">
+        <?php previous_comments_link( esc_html__( 'Older Comments', 'cablecast' ) ); ?>
+        <?php next_comments_link( esc_html__( 'Newer Comments', 'cablecast' ) ); ?>
+    </nav>
 
-		<ol>
-			<?php
+    <ol class="comment-list space-y-4">
+        <?php
 			wp_list_comments(
 				array(
 					'style'      => 'ol',
@@ -60,22 +55,19 @@ if ( post_password_required() ) {
 				)
 			);
 			?>
-		</ol>
+    </ol>
 
-		<?php
-		the_comments_navigation();
+    <nav class="comment-navigation flex justify-between mt-4" role="navigation">
+        <?php previous_comments_link( esc_html__( 'Older Comments', 'cablecast' ) ); ?>
+        <?php next_comments_link( esc_html__( 'Newer Comments', 'cablecast' ) ); ?>
+    </nav>
 
-		// If there are existing comments, but comments are closed, display a
-		// message.
-		if ( ! comments_open() ) :
-			?>
-			<p><?php esc_html_e( 'Comments are closed.', 'cablecast' ); ?></p>
-			<?php
-		endif;
+    <?php if ( ! comments_open() ) : ?>
+    <p class="no-comments text-gray-600"><?php esc_html_e( 'Comments are closed.', 'cablecast' ); ?></p>
+    <?php endif; ?>
 
-	endif;
+    <?php endif; ?>
 
-	comment_form();
-	?>
+    <?php comment_form(); ?>
 
 </div><!-- #comments -->

@@ -11,30 +11,6 @@
 
 <header id="masthead" class="bg-brand-secondary">
     <div id="topbar-container">
-
-
-
-        <!-- Site Name (hidden) -->
-        <div>
-            <?php
-			if ( is_front_page() ) :
-				?>
-            <h1 class="hidden"><?php bloginfo( 'name' ); ?></h1>
-            <?php
-			else :
-				?>
-            <p><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></p>
-            <?php
-			endif;
-
-			$cablecast_description = get_bloginfo( 'description', 'display' );
-			if ( $cablecast_description || is_customize_preview() ) :
-				?>
-            <p><?php echo $cablecast_description; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-            </p>
-            <?php endif; ?>
-        </div>
-
         <!-- site navigation -->
         <nav id="site-navigation" aria-label="<?php esc_attr_e( 'Main Navigation', 'cablecast' ); ?>">
             <button class="hidden" aria-controls="primary-menu"
