@@ -28,3 +28,7 @@ html {
 .post-edit-link {
 	@apply hidden;
 }
+
+.prose :where(img):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+	@apply !my-0;
+}

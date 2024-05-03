@@ -206,58 +206,92 @@ require get_template_directory() . '/inc/template-tags.php';
  */
 require get_template_directory() . '/inc/template-functions.php';
 
+function url_exists($url) {
+    $headers = @get_headers($url);
+    return strpos($headers[0], '200') !== false;
+}
+
 function display_shows_by_category_shortcode($atts) {
     // Extract attributes
     $atts = shortcode_atts(array(
         'category' => '', // Default category is empty
+        'number'   => null, // Default number of posts is null
     ), $atts);
 
-    // Get category from shortcode attribute
+    // Get attributes from shortcode
     $category = sanitize_text_field($atts['category']);
+    $number   = intval($atts['number']); // Ensure number is an integer
 
     // Initialize output variable
     $output = '';
 
-    // Query shows based on category
+    // Check if the URL contains the "shows" slug
+    $current_url = $_SERVER['REQUEST_URI'];
+    $hide_view_all_link = strpos($current_url, 'shows') !== false;
+
+    // Construct the "View All" link URL
+    $view_all_link = $hide_view_all_link ? '' : esc_url(add_query_arg('category', $category, get_post_type_archive_link('show')));
+
+    // Query shows based on category and number of posts
     $args = array(
         'post_type' => 'show', // Custom post type name
-        'posts_per_page' => -1, // Retrieve all shows
         'tax_query' => array(
             array(
                 'taxonomy' => 'category', // Taxonomy name
-                'field' => 'name', // Query by category name
-                'terms' => $category, // Category name from shortcode attribute
+                'field'    => 'name',     // Query by category name
+                'terms'    => $category,  // Category name from shortcode attribute
             ),
         ),
     );
 
+    // Check if number attribute is provided
+    if ($number !== null) {
+        $args['posts_per_page'] = $number; // Set number of posts to retrieve
+    }
+
     $query = new WP_Query($args);
-	if ($query->have_posts()) {
+    if ($query->have_posts()) {
 
-		$output .= '<div class="show-list">';
-		$output .= '<div class="flex justify-between items-center">';
-		$output .= '<h2 class="uppercase text-3xl my-4">' . $category . '</h2>';
-	
-		$output .= '<a class="!text-brand-accent no-underline hover:underline my-4" href="' . esc_url(get_post_type_archive_link('show')) . '">View All</a>';
-		$output .= '</div>';
-		$output .= '<div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">'; // 
-	
-		$counter = 0;
+        $output .= '<div class="show-list">';
+        $output .= '<div class="flex justify-between items-center">';
+        $output .= '<h2 class="uppercase text-3xl my-4">' . $category . '</h2>';
 
-		while ($query->have_posts() && $counter < 5) {
-			$query->the_post();
-			$output .= '<div class="flex flex-col items-center">';
-			$output .= '<a href="' . get_permalink() . '">' . get_the_post_thumbnail() . '</a>'; 
-			$output .= '<a class="!text-brand-secondary no-underline hover:underline" href="' . get_permalink() . '">' . get_the_title() . '</a>'; 
-			$output .= '</div>';
-		}
-	
-		// Reset post data
-		wp_reset_postdata();
-	
-		$output .= '</div>'; // Close the grid container
-		$output .= '</div>'; // Close the show-list container
-	} else {
+        // Only show link if not on a page with "shows" slug
+        if (!$hide_view_all_link && !empty($view_all_link)) {
+            $output .= '<a class="!text-brand-accent no-underline hover:underline my-4" href="' . $view_all_link . '">View All</a>';
+        }
+        
+        $output .= '</div>';
+        $output .= '<div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">'; // 
+    
+        while ($query->have_posts()) {
+            $query->the_post();
+            $output .= '<div class="flex flex-col items-center">';
+            // Check if the post has a thumbnail image
+            if (has_post_thumbnail()) {
+                $image_url = get_the_post_thumbnail_url(get_the_ID(), 'full');
+                // Check if the image exists
+                if (url_exists($image_url)) {
+                    // If the image exists, display it
+                    $output .= '<a href="' . get_permalink() . '"><img src="' . $image_url . '" alt="' . get_the_title() . '" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" decoding="async" /></a>'; 
+                } else {
+                    // If the image does not exist, display a placeholder div with a grey background color
+                    $output .= '<div style="width: 227.195px; height: 127.797px; background-color: #ccc;"></div>';
+                }
+            } else {
+                // If the post does not have a thumbnail image, display a placeholder div with a grey background color
+                $output .= '<div style="width: 227.195px; height: 127.797px; background-color: #ccc;"></div>';
+            }
+            $output .= '<a class="!text-brand-secondary no-underline hover:underline" href="' . get_permalink() . '">' . get_the_title() . '</a>'; 
+            $output .= '</div>';
+        }
+    
+        // Reset post data
+        wp_reset_postdata();
+    
+        $output .= '</div>'; // Close the grid container
+        $output .= '</div>'; // Close the show-list container
+    } else {
         // No shows found
         $output .= '<p>No shows found in the ' . $category . ' category.</p>';
     }
