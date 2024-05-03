@@ -1,5 +1,5 @@
 <?php ?>
-<div class="flex min-h-screen flex-col justify-between">
+<div>
     <?php
 get_header();
 ?>
@@ -30,14 +30,17 @@ get_header();
                         echo $description;
                         echo '</p>';
                     }
+                    comments_template('/comments.php'); 
 
+                
                     endwhile; // End of the loop.
                 ?>
 
                 </div><!-- #content -->
         </main><!-- #primary -->
     </section><!-- #primary -->
-    <?php
+</div>
+<?php
 get_footer();
 ?>
 </div>

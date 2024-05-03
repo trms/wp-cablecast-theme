@@ -11,7 +11,7 @@
  * @package cablecast
  */
 ?>
-<div class="flex min-h-screen flex-col justify-between">
+<div>
     <?php
 get_header();
 ?>
@@ -38,8 +38,8 @@ get_header();
 
         </main><!-- #main -->
     </section><!-- #primary -->
-
-    <?php
+</div>
+<?php
 get_footer();
 
 ?>

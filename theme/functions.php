@@ -301,3 +301,9 @@ function display_shows_by_category_shortcode($atts) {
 
 // Register the shortcode
 add_shortcode('display_shows_by_category', 'display_shows_by_category_shortcode');
+
+// Add rewrite rule for custom login page
+function custom_login_rewrite_rule() {
+    add_rewrite_rule('^login/?$', 'index.php?custom_login=1', 'top');
+}
+add_action('init', 'custom_login_rewrite_rule');

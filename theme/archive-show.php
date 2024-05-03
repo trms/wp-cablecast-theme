@@ -1,5 +1,5 @@
 <?php ?>
-<div class="flex min-h-screen flex-col justify-between">
+<div>
     <?php
 get_header();
 

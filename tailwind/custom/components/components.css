@@ -74,3 +74,12 @@
 	height: 100%;
 	border: 0;
 }
+
+p.login-username {
+	display: flex;
+}
+
+form#loginform {
+	display: flex;
+	flex-direction: column;
+}

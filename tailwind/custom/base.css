@@ -24,11 +24,15 @@ html {
 	@apply bg-brand-main hover:shadow-2xl p-4;
 }
 
-.entry-title,
-.post-edit-link {
-	@apply hidden;
-}
-
 .prose :where(img):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
 	@apply !my-0;
+}
+
+textarea {
+	@apply border border-gray-300;
+}
+
+article header h2.entry-title,
+footer a.post-edit-link {
+	@apply hidden;
 }
