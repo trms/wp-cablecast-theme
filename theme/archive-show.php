@@ -1,4 +1,6 @@
-<?php
+<?php ?>
+<div class="flex min-h-screen flex-col justify-between">
+    <?php
 get_header();
 
 // Check if the category parameter is set in the URL
@@ -14,13 +16,14 @@ if (isset($_GET['category'])) {
 $shortcode = '[display_shows_by_category category="' . $category . '"]';
 
 ?>
-<div class="entry-content">
-    <?php 
+    <div class="entry-content">
+        <?php 
     // Output the shortcode with do_shortcode function
     echo do_shortcode($shortcode);
     ?>
+    </div>
 </div>
-
 <?php
 get_footer();
 ?>
+</div>

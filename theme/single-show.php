@@ -1,11 +1,13 @@
-<?php
+<?php ?>
+<div class="flex min-h-screen flex-col justify-between">
+    <?php
 get_header();
 ?>
-<section id="primary">
-    <main id="primary" class="entry-content">
-        <div id="content" class="site-content" role="main">
+    <section id="primary">
+        <main id="primary" class="entry-content">
+            <div id="content" class="site-content" role="main">
 
-            <?php
+                <?php
         // Start the Loop.
         while (have_posts()) :
             the_post();
@@ -19,8 +21,8 @@ get_header();
             // SHOW TITLE 
             the_title('<h1 class="text-3xl mt-8">', '</h1>');
             ?>
-            <div className="flex flex-row justify-between">
-                <?php 
+                <div className="flex flex-row justify-between">
+                    <?php 
                     // SHOW DESCRIPTION 
                     $description = get_post_meta(get_the_ID(), 'Program Description', true); 
                     if ($description) {
@@ -32,8 +34,10 @@ get_header();
                     endwhile; // End of the loop.
                 ?>
 
-            </div><!-- #content -->
-    </main><!-- #primary -->
-</section><!-- #primary -->
-<?php
+                </div><!-- #content -->
+        </main><!-- #primary -->
+    </section><!-- #primary -->
+    <?php
 get_footer();
+?>
+</div>
