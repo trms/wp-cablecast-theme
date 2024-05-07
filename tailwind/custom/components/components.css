@@ -83,3 +83,8 @@ form#loginform {
 	display: flex;
 	flex-direction: column;
 }
+
+/* CONTENT RESTRICTION  */
+.content-restricted {
+	@apply h-screen;
+}

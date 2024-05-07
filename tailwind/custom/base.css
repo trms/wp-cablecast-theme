@@ -28,6 +28,12 @@ html {
 	@apply !my-0;
 }
 
+.prose a {
+	color: inherit; /* Or any other properties */
+	font-weight: normal;
+	text-decoration: none;
+}
+
 textarea {
 	@apply border border-gray-300;
 }
@@ -35,4 +41,8 @@ textarea {
 article header h2.entry-title,
 footer a.post-edit-link {
 	@apply hidden;
+}
+
+#content {
+	@apply my-0 mx-auto max-w-screen-lg;
 }

@@ -264,27 +264,40 @@ function display_shows_by_category_shortcode($atts) {
         $output .= '</div>';
         $output .= '<div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">'; // 
     
-        while ($query->have_posts()) {
-            $query->the_post();
-            $output .= '<div class="flex flex-col items-center">';
-            // Check if the post has a thumbnail image
-            if (has_post_thumbnail()) {
-                $image_url = get_the_post_thumbnail_url(get_the_ID(), 'full');
-                // Check if the image exists
-                if (url_exists($image_url)) {
-                    // If the image exists, display it
-                    $output .= '<a href="' . get_permalink() . '"><img src="' . $image_url . '" alt="' . get_the_title() . '" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" decoding="async" /></a>'; 
-                } else {
-                    // If the image does not exist, display a placeholder div with a grey background color
-                    $output .= '<div style="width: 227.195px; height: 127.797px; background-color: #ccc;"></div>';
-                }
-            } else {
-                // If the post does not have a thumbnail image, display a placeholder div with a grey background color
-                $output .= '<div style="width: 227.195px; height: 127.797px; background-color: #ccc;"></div>';
-            }
-            $output .= '<a class="!text-brand-secondary no-underline hover:underline" href="' . get_permalink() . '">' . get_the_title() . '</a>'; 
-            $output .= '</div>';
-        }
+		while ($query->have_posts()) {
+			$query->the_post();
+			$post_id = get_the_ID();
+		
+			$can_access = rcp_user_can_access(get_current_user_id(), $post_id);
+		
+			// Begin individual show container
+			$output .= '<div class="show-container relative">';  // Added a relative position for overlay purposes
+		
+			// Thumbnail and overlay logic
+			if (has_post_thumbnail()) {
+				$thumbnail_html = '<img src="' . esc_url(get_the_post_thumbnail_url($post_id, 'full')) . '" alt="' . esc_attr(get_the_title()) . '" class="attachment-post-thumbnail size-post-thumbnail wp-post-image">';
+		
+				if (!$can_access) {
+					$thumbnail_html = '
+					<div class="relative inline-block">' . $thumbnail_html . '
+						<div class="absolute top-0 left-0 w-full h-full bg-black bg-opacity-70 text-white flex items-center justify-center opacity-100 flex-col text-[11px]">
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="h-4 w-4">
+								<path fill="#ffffff" d="M144 144v48H304V144c0-44.2-35.8-80-80-80s-80 35.8-80 80zM80 192V144C80 64.5 144.5 0 224 0s144 64.5 144 144v48h16c35.3 0 64 28.7 64 64V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V256c0-35.3 28.7-64 64-64H80z"/>
+							</svg>
+							<span class="text-white no-underline my-2">This content is for members only!</span>
+							<span>Please <a class="!text-brand-main" href="/login">log in</a> to view</span>
+						</div>
+					</div>';
+				}
+		
+				$output .= '<div class="' . (!$can_access ? 'restricted-link' : '') . '">' . $thumbnail_html . '</div>';
+			}
+		
+			// Show title
+			$output .= '<a class="show-title !text-brand-secondary no-underline hover:underline" href="' . esc_url(get_permalink()) . '">' . esc_html(get_the_title()) . '</a>';
+		
+			$output .= '</div>'; // End individual show container
+		}
     
         // Reset post data
         wp_reset_postdata();
@@ -302,8 +315,32 @@ function display_shows_by_category_shortcode($atts) {
 // Register the shortcode
 add_shortcode('display_shows_by_category', 'display_shows_by_category_shortcode');
 
-// Add rewrite rule for custom login page
-function custom_login_rewrite_rule() {
-    add_rewrite_rule('^login/?$', 'index.php?custom_login=1', 'top');
+function modify_show_content($content) {
+    if (is_singular('show') && in_the_loop() && is_main_query()) {
+        ob_start(); // Start output buffering
+            //VIDEO PLAYER
+            $video_iframe = get_post_meta(get_the_ID(), 'cablecast_vod_embed', true);
+            if ($video_iframe) {
+                echo '<div class="embed-responsive">';
+                echo $video_iframe;
+                echo '</div>';
+            }
+            
+            // SHOW TITLE 
+            the_title('<h1 class="text-3xl mt-8">', '</h1>');
+            
+            // SHOW DESCRIPTION 
+            $description = get_post_meta(get_the_ID(), 'Program Description', true);
+            if ($description) {
+                echo '<p class="w-3/5 my-4">' . $description . '</p>';
+            }
+        
+        
+        $new_content = ob_get_clean(); // Get the buffer and clean it
+        return $new_content;
+    }
+    
+    return $content; // Return the unmodified content for other post types
 }
-add_action('init', 'custom_login_rewrite_rule');
+
+add_filter('the_content', 'modify_show_content');
