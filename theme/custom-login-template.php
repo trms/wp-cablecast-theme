@@ -31,14 +31,14 @@ Template Name: Custom Login Page
 get_header();
 ?>
 
-    <div id="primary" class="content-area p-2">
+    <div class="content-area p-2">
         <main id="main" class="site-main">
             <div class="max-w-7xl mx-auto my-8 md:px-80">
                 <?php the_content();?>
             </div>
             <div>
                 <div>
-                    <div class="w-full sm:w-1/2 mx-auto shadow-xl my-8 p-8 border border-gray-100">
+                    <div class="w-full sm:w-1/2 mx-auto shadow-xl my-8 p-8 border border-gray-100  primary">
                         <h2 class="text-center mb-4 text-2xl font-bold">Login</h2>
                         <form name="loginform" id="loginform" action="" method="post">
                             <p class="login-username flex flex-col gap-y-2">
@@ -61,8 +61,8 @@ get_header();
                                     Me</label></p>
                             <p class="login-submit mt-8">
                                 <input type="submit" name="wp-submit" id="wp-submit"
-                                    class="button button-primary bg-brand-accent p-2 text-white" value="Log In" disabled
-                                    style="cursor: default; background-color: #ccc;">
+                                    class="button button-primary button-secondary p-2 text-white" value="Log In"
+                                    disabled style="cursor: default; background-color: #ccc;">
                                 <input type="hidden" name="redirect_to" value="<?php echo esc_url( home_url() ); ?>">
                             </p>
                         </form>

@@ -25,10 +25,10 @@
 
     <?php wp_body_open(); ?>
 
-    <div id="page" class="flex min-h-screen flex-col justify-between">
+    <div id="page" class="flex min-h-screen flex-col justify-between gradient">
         <a href="#content" class="sr-only"><?php esc_html_e( 'Skip to content', 'cablecast' ); ?></a>
         <div class="flex min-h-screen flex-col justify-between">
             <div>
                 <?php get_template_part( 'template-parts/layout/header', 'content' ); ?>
 
-                <div id="content">
+                <div id="content" class="background_color">

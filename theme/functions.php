@@ -274,15 +274,20 @@ function display_shows_by_category_shortcode($atts) {
 			// Begin individual show container
 			$output .= '<div class="show-container relative">';  // Added a relative position for overlay purposes
 		
-			// Thumbnail and overlay logic
+			// Start link tag wrapping both thumbnail and title
+			$output .= '<a href="' . esc_url(get_permalink()) . '" class="no-underline hover:underline">';
+		
+			// Thumbnail logic
 			if (has_post_thumbnail()) {
 				$thumbnail_html = '<img src="' . esc_url(get_the_post_thumbnail_url($post_id, 'full')) . '" alt="' . esc_attr(get_the_title()) . '" class="attachment-post-thumbnail size-post-thumbnail wp-post-image">';
-		
 				$output .= '<div>' . $thumbnail_html . '</div>';
 			}
 		
 			// Show title
-			$output .= '<a class="show-title !text-brand-secondary no-underline hover:underline" href="' . esc_url(get_permalink()) . '">' . esc_html(get_the_title()) . '</a>';
+			$output .= '<span class="show-title !text-brand-secondary">' . esc_html(get_the_title()) . '</span>';
+		
+			// End link tag
+			$output .= '</a>';
 		
 			$output .= '</div>'; // End individual show container
 		}
@@ -314,12 +319,104 @@ add_action('after_setup_theme', 'hide_admin_bar_from_non_admins');
 function add_login_logout_link($items, $args) {
     if ($args->theme_location == 'menu-1') {
         if (is_user_logged_in()) {
-            $link = '<li class="menu-item btn btn-primary"><a href="' . esc_url(site_url('/register/your-membership/')) . '" class="button-style">My Membership</a></li>';
+            $link = '<li class="menu-item btn primary-button"><a href="' . esc_url(site_url('/register/your-membership/')) . '" class="button-style">My Membership</a></li>';
         } else {
-            $link = '<li class="menu-item btn btn-primary"><a href="' . esc_url(site_url('/login')) . '" class="button-style">Members Sign In</a></li>';
+            $link = '<li class="menu-item btn primary-button"><a href="' . esc_url(site_url('/login')) . '" class="button-style">Members Sign In</a></li>';
         }
         $items .= $link;
     }
     return $items;
 }
 add_filter('wp_nav_menu_items', 'add_login_logout_link', 10, 2);
+
+function sanitize_color( $color ) {
+    // Check for hex colors
+    $color = sanitize_hex_color($color);
+    if ( ! $color ) {
+        // Check for rgba colors (simple validation)
+        if ( preg_match('/^rgba\(\d+\,\s*\d+\,\s*\d+\,\s*(0|1|0?.\d+)\)$/', trim($color) ) ) {
+            return $color;
+        }
+        return null;  // Return null if neither hex nor rgba is valid
+    }
+    return $color;
+}
+
+
+function custom_theme_colors( $wp_customize ) {
+    // Add Section for Site Colors
+    $wp_customize->add_section('cablecast_site_colors', array(
+        'title'    => __('Site Colors', 'cablecast'),
+        'priority' => 30,
+    ));
+
+    // Settings and Controls for Color Options with Defaults
+    $colors = array(
+        'banner_color'           => array(__('Banner Color', 'cablecast'), '#545C6E'),
+        'main_background_color'       => array(__('Background Color', 'cablecast'), '#E8E8F0'),
+        'gradient_color'         => array(__('Gradient Color', 'cablecast'), '#576b80'),
+        'primary_button_color'   => array(__('Primary Button Color', 'cablecast'), '#2DB566'),
+        'secondary_button_color' => array(__('Secondary Button Color', 'cablecast'), '#3192C8'),
+        'body_button_color'      => array(__('Body Button Color', 'cablecast'), '#3192C8'),
+    );
+
+    foreach ($colors as $id => $value) {
+        // Add Setting with Default Color
+        $wp_customize->add_setting($id, array(
+            'default'           => $value[1], // Default color value
+			'sanitize_callback' => 'sanitize_color',
+            'transport'         => 'refresh',
+        ));
+
+        // Add Control
+        $wp_customize->add_control(new WP_Customize_Color_Control(
+            $wp_customize,
+            $id,
+            array(
+                'label'    => $value[0], // Label
+                'section'  => 'cablecast_site_colors',
+                'settings' => $id,
+				'capability' => 'edit_theme_options',
+            )
+        ));
+    }
+}
+add_action('customize_register', 'custom_theme_colors');
+
+
+function cablecast_customizer_css() {
+    ?>
+<style type="text/css">
+.banner {
+    background-color: <?php echo get_theme_mod('banner_color', '#545C6E');
+    ?>;
+}
+
+#primary,
+.primary {
+    background-color: <?php echo get_theme_mod('main_background_color', '#E8E8F0');
+    ?>;
+}
+
+.gradient {
+    background-image: linear-gradient(<?php echo get_theme_mod('gradient_color', '#576b80'); ?>, <?php echo get_theme_mod('background_color', '#ffffff'); ?>);
+}
+
+.primary-button {
+    background-color: <?php echo get_theme_mod('primary_button_color', '#2DB566');
+    ?>;
+}
+
+.secondary-button {
+    background-color: <?php echo get_theme_mod('secondary_button_color', '#3192C8');
+    ?>;
+}
+
+.body-button {
+    background-color: <?php echo get_theme_mod('body_button_color', '#3192C8');
+    ?>;
+}
+</style>
+<?php
+}
+add_action('wp_head', 'cablecast_customizer_css');

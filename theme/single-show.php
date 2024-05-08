@@ -42,8 +42,8 @@
                                     <span>This Content requires a membership to view.</span>
                                     <span>Login or register below.</span>
                                     <div class="mt-4">
-                                        <a href="/login" class="bg-brand-accent hover:shadow-xl text-white  py-2 px-4 ">Login</a>
-                                        <a href="/register" class="bg-brand-accent hover:shadow-xl text-white  py-2 px-4 ">Register</a>
+                                        <a href="/login" class="btn secondary-button hover:shadow-xl text-white  py-2 px-4 ">Login</a>
+                                        <a href="/register" class="btn secondary-button hover:shadow-xl text-white  py-2 px-4 ">Register</a>
                                     </div>
                                 </div>  
                             </div>';

@@ -9,7 +9,7 @@
 
 ?>
 
-<header id="masthead" class="bg-brand-secondary">
+<header id="masthead" class="banner">
     <div id="topbar-container" class="relative mx-auto px-8 w-full md:px-8 border-b border-gray-500">
         <!-- site navigation -->
         <nav id="site-navigation" aria-label="<?php esc_attr_e( 'Main Navigation', 'cablecast' ); ?>"
