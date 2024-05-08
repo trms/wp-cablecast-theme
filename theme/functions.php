@@ -277,20 +277,7 @@ function display_shows_by_category_shortcode($atts) {
 			if (has_post_thumbnail()) {
 				$thumbnail_html = '<img src="' . esc_url(get_the_post_thumbnail_url($post_id, 'full')) . '" alt="' . esc_attr(get_the_title()) . '" class="attachment-post-thumbnail size-post-thumbnail wp-post-image">';
 		
-				if (!$can_access) {
-					$thumbnail_html = '
-					<div class="relative inline-block">' . $thumbnail_html . '
-						<div class="absolute top-0 left-0 w-full h-full bg-black bg-opacity-70 text-white flex items-center justify-center opacity-100 flex-col text-[11px]">
-							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="h-4 w-4">
-								<path fill="#ffffff" d="M144 144v48H304V144c0-44.2-35.8-80-80-80s-80 35.8-80 80zM80 192V144C80 64.5 144.5 0 224 0s144 64.5 144 144v48h16c35.3 0 64 28.7 64 64V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V256c0-35.3 28.7-64 64-64H80z"/>
-							</svg>
-							<span class="text-white no-underline my-2">This content is for members only!</span>
-							<span>Please <a class="!text-brand-main" href="/login">log in</a> to view</span>
-						</div>
-					</div>';
-				}
-		
-				$output .= '<div class="' . (!$can_access ? 'restricted-link' : '') . '">' . $thumbnail_html . '</div>';
+				$output .= '<div>' . $thumbnail_html . '</div>';
 			}
 		
 			// Show title
@@ -314,71 +301,3 @@ function display_shows_by_category_shortcode($atts) {
 
 // Register the shortcode
 add_shortcode('display_shows_by_category', 'display_shows_by_category_shortcode');
-
-function modify_show_content($content) {
-	global $post;
-    if (is_singular('show') && in_the_loop() && is_main_query()) {
-		$show_meta = get_post_custom($post->ID);
-		$producer = get_post_meta($post->ID, 'cablecast_producer_name', true);
-        $category = get_post_meta($post->ID, 'cablecast_category_name', true);
-        $project = get_post_meta($post->ID, 'cablecast_project_name', true);
-        $trt = get_post_meta($post->ID, 'cablecast_show_trt', true);
-		$trtFormatted = gmdate("H:i:s", $trt);
-		$comments = get_post_meta($post->ID, 'cablecast_show_comments', true);
-
-        ob_start(); // Start output buffering
-            //VIDEO PLAYER
-            $video_iframe = get_post_meta($post->ID, 'cablecast_vod_embed', true);
-            if ($video_iframe) {
-                echo '<div class="embed-responsive">';
-                echo $video_iframe;
-                echo '</div>';
-            }
-            
-            // SHOW TITLE 
-            the_title('<h1 class="text-3xl mt-8 mb-4">', '</h1>');
-            
-            // CUSTOM FIELDS
-			if($comments) {
-				echo '<div class="mb-4">';
-				echo $comments;
-				echo '</div>';
-			}
-			echo '<div class="sm:flex justify-between sm:w-2/3">';
-				echo '<div>';
-					if($trt) {
-						echo '<div class="">';
-						echo '<span class="font-bold">Length: </span>';
-						echo $trtFormatted;
-						echo '</div>';
-					}
-					if($producer) {
-						echo '<div class="">';
-						echo '<span class="font-bold">Producer: </span>';
-						echo $producer;
-						echo '</div>';
-					}
-				echo '</div>';
-				echo '<div>';
-					if($category) {
-						echo '<div class="">';
-						echo '<span class="font-bold">Category: </span>';
-						echo $category;
-						echo '</div>';
-					}
-					if($project) {
-						echo '<div class="">';
-						echo '<span class="font-bold">Project: </span>';
-						echo $project;
-						echo '</div>';
-					}
-				echo '</div>';
-			echo '</div>';
-        $new_content = ob_get_clean(); // Get the buffer and clean it
-        return $new_content;
-    }
-    
-    return $content; // Return the unmodified content for other post types
-}
-
-add_filter('the_content', 'modify_show_content');
