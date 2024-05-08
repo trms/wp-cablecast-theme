@@ -310,3 +310,16 @@ function hide_admin_bar_from_non_admins() {
 }
 
 add_action('after_setup_theme', 'hide_admin_bar_from_non_admins');
+
+function add_login_logout_link($items, $args) {
+    if ($args->theme_location == 'menu-1') {
+        if (is_user_logged_in()) {
+            $link = '<li class="menu-item btn btn-primary"><a href="' . esc_url(site_url('/register/your-membership/')) . '" class="button-style">My Membership</a></li>';
+        } else {
+            $link = '<li class="menu-item btn btn-primary"><a href="' . esc_url(site_url('/login')) . '" class="button-style">Members Sign In</a></li>';
+        }
+        $items .= $link;
+    }
+    return $items;
+}
+add_filter('wp_nav_menu_items', 'add_login_logout_link', 10, 2);
