@@ -329,12 +329,26 @@ function modify_show_content($content) {
             // SHOW TITLE 
             the_title('<h1 class="text-3xl mt-8">', '</h1>');
             
-            // SHOW DESCRIPTION 
-            $description = get_post_meta(get_the_ID(), 'Program Description', true);
-            if ($description) {
-                echo '<p class="w-3/5 my-4">' . $description . '</p>';
-            }
-        
+            // CUSTOM FIELDS
+			 // Fetch the options from the WordPress options table where settings are stored
+			 $options = get_option('shows_options');
+
+			 // Fetch the list of all custom fields you might want to show
+			 $custom_fields = get_custom_fields_for_shows();
+		 
+			 // Iterate through each custom field
+			 foreach ($custom_fields as $field) {
+				 // Check if this field is enabled in the settings
+				 if (!empty($options[$field])) {
+					 // Fetch the value of this custom field from the current post
+					 $value = get_post_meta(get_the_ID(), $field, true);
+		 
+					 // If the value exists, display it
+					 if (!empty($value)) {
+						 echo '<p>' . esc_html($value) . '</p>';
+					 }
+				 }
+			 }
         
         $new_content = ob_get_clean(); // Get the buffer and clean it
         return $new_content;
@@ -344,3 +358,110 @@ function modify_show_content($content) {
 }
 
 add_filter('the_content', 'modify_show_content');
+
+
+// CUSTOM FIELDS SETTINGS 
+function get_custom_fields_for_shows() {
+    global $wpdb;
+    $post_ids = $wpdb->get_col("SELECT ID FROM $wpdb->posts WHERE post_type = 'show' AND post_status = 'publish'");
+
+    $meta_keys = [];
+    foreach ($post_ids as $post_id) {
+        $post_meta = get_post_meta($post_id);
+        foreach ($post_meta as $key => $value) {
+            if (!in_array($key, $meta_keys)) {
+                $meta_keys[] = $key;
+            }
+        }
+    }
+    
+    return $meta_keys;
+}
+
+function shows_settings_init() {
+    // Register a new setting for "shows" page
+    register_setting('shows', 'shows_options');
+
+    // Register a new section in the "shows" page
+    add_settings_section(
+        'shows_custom_fields_section',
+        'Custom Fields Display Settings',
+        'shows_custom_fields_section_cb',
+        'shows'
+    );
+
+    // Register each custom field control
+    $custom_fields = get_custom_fields_for_shows(); // Assume this function fetches your fields
+    foreach ($custom_fields as $field) {
+        add_settings_field(
+            'shows_field_' . $field, // Unique ID of the field
+            $field, // Title of the field
+            'shows_custom_field_cb', // Callback for field HTML
+            'shows',
+            'shows_custom_fields_section',
+            [
+                'label_for' => 'shows_field_' . $field,
+                'class' => 'shows_row',
+                'shows_custom_field_name' => $field,
+            ]
+        );
+    }
+}
+
+function shows_custom_fields_section_cb() {
+    echo '<p>Select the custom fields you want to display on the frontend.</p>';
+}
+
+function shows_custom_field_cb($args) {
+    // Get the value of the setting we've registered with register_setting()
+    $options = get_option('shows_options');
+    $field_name = $args['shows_custom_field_name'];
+    $checked = isset($options[$field_name]) ? checked(1, $options[$field_name], false) : '';
+    ?>
+<input type="checkbox" id="<?php echo esc_attr($args['label_for']); ?>"
+    name="shows_options[<?php echo esc_attr($field_name); ?>]" value="1" <?php echo $checked; ?>>
+<?php
+}
+
+
+
+
+add_action('admin_init', 'shows_settings_init');
+function shows_options_sub_menu() {
+    add_submenu_page(
+        'edit.php?post_type=show',  // Parent slug
+        'Shows Settings',           // Page title
+        'Settings',            // Menu title
+        'manage_options',           // Capability
+        'shows-settings',           // Menu slug
+        'shows_options_page_html'   // Callback function
+    );
+}
+
+add_action('admin_menu', 'shows_options_sub_menu');
+
+
+function shows_options_page_html() {
+    // check user capabilities
+    if (!current_user_can('manage_options')) {
+        return;
+    }
+
+    // add error/update messages
+    settings_errors('shows_messages');
+    ?>
+<div class="wrap">
+    <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
+    <form action="options.php" method="post">
+        <?php
+            // output security fields for the registered setting "shows"
+            settings_fields('shows');
+            // output setting sections and their fields
+            do_settings_sections('shows');
+            // output save settings button
+            submit_button('Save Settings');
+            ?>
+    </form>
+</div>
+<?php
+}

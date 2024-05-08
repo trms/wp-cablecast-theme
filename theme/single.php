@@ -13,7 +13,7 @@
  get_header();
  ?>
     <section id="primary">
-        <main id="main">
+        <main id="main" class="pb-8">
             <?php
 			// Start the Loop.
 			while (have_posts()) :
