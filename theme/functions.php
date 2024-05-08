@@ -83,6 +83,7 @@ if ( ! function_exists( 'cablecast_setup' ) ) :
 				'menu-2' => __( 'Footer Menu Col-1', 'cablecast' ),
 				'menu-3' => __( 'Footer Menu Col-2', 'cablecast' ),
 				'menu-4' => __( 'Footer Menu Col-3', 'cablecast' ),
+				'menu-5' => __( 'Footer Menu Col-4', 'cablecast' ),
 			)
 		);
 

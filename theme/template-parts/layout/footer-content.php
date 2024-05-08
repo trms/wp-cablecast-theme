@@ -64,6 +64,17 @@
 				);
 				?>
                     </div>
+                    <?php if (is_user_logged_in()) : ?>
+                    <div class="text-white">
+                        <?php wp_nav_menu(
+                            array(
+                                'theme_location' => 'menu-5',
+                                'menu_id'        => 'footer-menu-col-4',
+                                'items_wrap'     => '<div class="menu-name font-bold">Member Links</div><ul id="%1$s" class="%2$s flex justify-start flex-col" aria-label="submenu">%3$s</ul>',
+                            )
+                        ); ?>
+                    </div>
+                    <?php endif; ?>
                 </div>
             </div>
         </nav><!-- #site-navigation -->
