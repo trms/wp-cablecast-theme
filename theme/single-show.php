@@ -39,9 +39,8 @@
                         echo '
                             <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white text-center py-10">
                                 <div class="flex justify-center flex-col gap-y-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 my-0 mx-auto" viewBox="0 0 448 512"><path fill="#ffffff" d="M144 144v48H304V144c0-44.2-35.8-80-80-80s-80 35.8-80 80zM80 192V144C80 64.5 144.5 0 224 0s144 64.5 144 144v48h16c35.3 0 64 28.7 64 64V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V256c0-35.3 28.7-64 64-64H80z"/></svg>
                                     <span>This Content requires a membership to view.</span>
-                                    <span class="text-xs">Login or register below.</span>
+                                    <span>Login or register below.</span>
                                     <div class="mt-4">
                                         <a href="/login" class="bg-brand-accent hover:shadow-xl text-white  py-2 px-4 ">Login</a>
                                         <a href="/register" class="bg-brand-accent hover:shadow-xl text-white  py-2 px-4 ">Register</a>

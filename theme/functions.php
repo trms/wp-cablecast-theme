@@ -301,3 +301,11 @@ function display_shows_by_category_shortcode($atts) {
 
 // Register the shortcode
 add_shortcode('display_shows_by_category', 'display_shows_by_category_shortcode');
+
+function hide_admin_bar_from_non_admins() {
+    if (!current_user_can('administrator')) {
+        show_admin_bar(false);
+    }
+}
+
+add_action('after_setup_theme', 'hide_admin_bar_from_non_admins');
