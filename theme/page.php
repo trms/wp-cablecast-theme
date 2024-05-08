@@ -16,7 +16,7 @@
 get_header();
 ?>
 
-    <section id="primary">
+    <section id="primary" class="p-2">
         <main id="main">
 
             <?php

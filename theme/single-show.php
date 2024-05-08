@@ -10,7 +10,7 @@
     <?php
  get_header();
  ?>
-    <section id="primary" class="content-area">
+    <section id="primary" class="content-area p-2">
         <main id="main" class="site-main pb-8">
             <?php while (have_posts()) : the_post(); ?>
             <article <?php post_class(); ?>>

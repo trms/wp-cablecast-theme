@@ -31,7 +31,7 @@ Template Name: Custom Login Page
 get_header();
 ?>
 
-    <div id="primary" class="content-area">
+    <div id="primary" class="content-area p-2">
         <main id="main" class="site-main">
             <div class="max-w-7xl mx-auto my-8 md:px-80">
                 <?php the_content();?>
