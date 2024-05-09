@@ -9,7 +9,7 @@
 
 ?>
 
-<footer class="bg-brand-secondary relative w-full  py-8">
+<footer class="bg-brand-secondary relative w-full  py-8 px-2">
     <div id="bottombar-container" <!-- site navigation -->
         <nav id=" site-navigation" aria-label="<?php esc_attr_e( 'Main Navigation', 'cablecast' ); ?>">
             <button class="hidden" aria-controls="primary-menu"
@@ -64,6 +64,17 @@
 				);
 				?>
                     </div>
+                    <?php if (is_user_logged_in()) : ?>
+                    <div class="text-white">
+                        <?php wp_nav_menu(
+                            array(
+                                'theme_location' => 'menu-5',
+                                'menu_id'        => 'footer-menu-col-4',
+                                'items_wrap'     => '<div class="menu-name font-bold">Member Links</div><ul id="%1$s" class="%2$s flex justify-start flex-col" aria-label="submenu">%3$s</ul>',
+                            )
+                        ); ?>
+                    </div>
+                    <?php endif; ?>
                 </div>
             </div>
         </nav><!-- #site-navigation -->

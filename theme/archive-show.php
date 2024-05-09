@@ -16,7 +16,7 @@ if (isset($_GET['category'])) {
 $shortcode = '[display_shows_by_category category="' . $category . '"]';
 
 ?>
-    <div class="entry-content">
+    <div class="entry-content p-2 h-screen" id="primary">
         <?php 
     // Output the shortcode with do_shortcode function
     echo do_shortcode($shortcode);
