@@ -249,8 +249,13 @@ function display_shows_by_category_shortcode($atts) {
 		while ($query->have_posts()) {
 			$query->the_post();
 			$post_id = get_the_ID();
-		
-			$can_access = rcp_user_can_access(get_current_user_id(), $post_id);
+		        // Check if the rcp_user_can_access function exists and run it if so
+                if (function_exists('rcp_user_can_access')) {
+                    $can_access = rcp_user_can_access(get_current_user_id(), $post_id);
+                } else {
+                    // If the function doesn't exist, default to true (access granted)
+                    $can_access = true;
+                }
 		
 			// Begin individual show container
 			$output .= '<div class="show-container relative">';  // Added a relative position for overlay purposes
