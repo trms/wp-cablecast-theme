@@ -38,10 +38,6 @@ textarea {
 	@apply border border-gray-300;
 }
 
-article header h2.entry-title,
-footer a.post-edit-link {
-	@apply hidden;
-}
 
 #content {
 	@apply my-0 mx-auto max-w-screen-lg;
