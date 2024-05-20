@@ -193,6 +193,76 @@ function url_exists($url) {
     return strpos($headers[0], '200') !== false;
 }
 
+function search_shows_callback() {
+    $searchTerm = $_POST['searchTerm'];
+
+    // Query shows based on search term
+    $args = array(
+        'post_type'      => 'show', // Custom post type name
+        's'              => $searchTerm,
+        'posts_per_page' => -1 // Retrieve all matching posts
+    );
+
+    $query = new WP_Query($args);
+
+    // Initialize output variable
+    $output = '';
+
+    // Render thumbnails of matching shows
+    if ($query->have_posts()) {
+        $output .= '<div class="show-list mt-8">';
+        $output .= '<div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">'; 
+
+        while ($query->have_posts()) {
+            $query->the_post();
+            $post_id = get_the_ID();
+
+            // Begin individual show container
+            $output .= '<div class="show-container relative">';
+
+            // Start link tag wrapping both thumbnail and title
+            $output .= '<a href="' . esc_url(get_permalink()) . '" class="no-underline hover:underline">';
+
+			// Thumbnail logic
+			if (has_post_thumbnail()) {
+				$thumbnail_html = '<img src="' . esc_url(get_the_post_thumbnail_url($post_id, 'full')) . '" alt="' . esc_attr(get_the_title()) . '" class="attachment-post-thumbnail size-post-thumbnail wp-post-image">';
+				$output .= '<div>' . $thumbnail_html . '</div>';
+			} else {
+				// If no thumbnail is available, use the placeholder image
+				$placeholder_url = get_template_directory_uri() . '/thumbnail_placeholder.png'; // Adjust the path as needed
+				$output .= '<img src="' . $placeholder_url . '" alt="Thumbnail Placeholder" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" >';
+			}
+
+            // Show title
+            $output .= '<span class="show-title !text-brand-secondary break-words">' . esc_html(get_the_title()) . '</span>';
+
+            // End link tag
+            $output .= '</a>';
+
+            $output .= '</div>'; // End individual show container
+        }
+
+        $output .= '</div>'; // Close the grid container
+        $output .= '</div>'; // Close the show-list container
+    } else {
+        // No shows found
+        $output .= '<p class="mt-4">No shows found.</p>';
+    }
+
+    // Output the HTML
+    echo $output;
+
+    // Reset post data
+    wp_reset_postdata();
+
+    // Ensure that no further processing is performed
+    wp_die();
+}
+add_action('wp_ajax_search_shows', 'search_shows_callback');
+add_action('wp_ajax_nopriv_search_shows', 'search_shows_callback');
+
+
+
 function display_shows_by_category_shortcode($atts) {
     // Extract attributes
     $atts = shortcode_atts(array(
@@ -267,6 +337,10 @@ function display_shows_by_category_shortcode($atts) {
 			if (has_post_thumbnail()) {
 				$thumbnail_html = '<img src="' . esc_url(get_the_post_thumbnail_url($post_id, 'full')) . '" alt="' . esc_attr(get_the_title()) . '" class="attachment-post-thumbnail size-post-thumbnail wp-post-image">';
 				$output .= '<div>' . $thumbnail_html . '</div>';
+			} else {
+				// If no thumbnail is available, use the placeholder image
+				$placeholder_url = get_template_directory_uri() . '/thumbnail_placeholder.png'; // Adjust the path as needed
+				$output .= '<img src="' . $placeholder_url . '" alt="Thumbnail Placeholder" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" >';
 			}
 		
 			// Show title
@@ -285,7 +359,7 @@ function display_shows_by_category_shortcode($atts) {
         $output .= '</div>'; // Close the show-list container
     } else {
         // No shows found
-        $output .= '<p>No shows found in the ' . $category . ' category.</p>';
+        $output .= '<p class="mt-4">No shows found in the ' . $category . ' category.</p>';
     }
 
     return $output;
@@ -406,3 +480,8 @@ function cablecast_customizer_css() {
 <?php
 }
 add_action('wp_head', 'cablecast_customizer_css');
+
+function my_theme_enqueue_scripts() {
+    wp_enqueue_script('jquery');
+}
+add_action('wp_enqueue_scripts', 'my_theme_enqueue_scripts');
