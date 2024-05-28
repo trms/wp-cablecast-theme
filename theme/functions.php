@@ -380,8 +380,8 @@ function cablecast_customizer_css() {
 
 #primary,
 .primary {
-    background-color: <?php echo get_theme_mod('main_background_color', '#E8E8F0');
-    ?>;
+    /* background-color: <?php echo get_theme_mod('main_background_color', '#E8E8F0');
+    ?>; */
 }
 
 .gradient {

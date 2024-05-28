@@ -25,7 +25,7 @@
 
     <?php wp_body_open(); ?>
 
-    <div id="page" class="flex min-h-screen flex-col justify-between gradient">
+    <div id="page" class="flex min-h-screen flex-col justify-between">
         <a href="#content" class="sr-only"><?php esc_html_e( 'Skip to content', 'cablecast' ); ?></a>
         <div class="flex min-h-screen flex-col justify-between">
             <div>
