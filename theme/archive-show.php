@@ -1,15 +1,17 @@
 <?php
 get_header();
 ?>
+
 <div class="entry-content p-2 h-full min-h-screen" id="primary">
     <div id="spinner" class="spinner" style="display: none;"></div>
+
     <?php
     // Check if the category parameter is set in the URL
     if (isset($_GET['category'])) {
         // Get the value of the category parameter from the URL
-        $category = $_GET['category'];
+        $category = sanitize_text_field($_GET['category']); // Sanitize the input
         // Construct the shortcode with the category parameter
-        $shortcode = '[display_shows_by_category category="' . $category . '"]';
+        $shortcode = '[display_shows_by_category category="' . esc_attr($category) . '"]';
         // Output the shortcode
         echo do_shortcode($shortcode);
     } else {
@@ -18,58 +20,60 @@ get_header();
     <div class="search-container w-full text-center">
         <h1 class="text-center text-3xl font-bold my-4">Shows</h1>
         <input type="text" id="show-search" class="w-3/4 border border-gray-100 shadow my-0 mx-auto p-2"
-            placeholder="Search shows" <div id="show-thumbnails">
+            placeholder="Search shows">
     </div>
-
+    <div id="show-thumbnails"></div>
     <div id="categories-container">
         <?php
-        // Check if the spinner is not visible and neither category nor search term is present
-        if (!isset($_GET['category']) && !isset($_POST['searchTerm'])) {
-            // Get all categories
-            $categories = get_categories(array(
-                'taxonomy'   => 'category',
-                'hide_empty' => false, // Include categories with no posts
-            ));
+            // Check if neither category nor search term is present
+            if (!isset($_GET['category']) && !isset($_POST['searchTerm'])) {
+                // Get all categories
+                $categories = get_categories(array(
+                    'taxonomy'   => 'category',
+                    'hide_empty' => false, // Include categories with no posts
+                ));
 
-            // Paginate categories
-            $paged = isset($_GET['paged']) ? max(1, intval($_GET['paged'])) : 1;
-            $posts_per_page = 10;
-            $total_categories = count($categories);
-            $total_pages = ceil($total_categories / $posts_per_page);
-            $offset = ($paged - 1) * $posts_per_page;
+                // Paginate categories
+                $paged = isset($_GET['paged']) ? max(1, intval($_GET['paged'])) : 1;
+                $posts_per_page = 10;
+                $total_categories = count($categories);
+                $total_pages = ceil($total_categories / $posts_per_page);
+                $offset = ($paged - 1) * $posts_per_page;
 
-            echo '<div id="categories">';
-            // Loop through each category and display shortcode for each
-            for ($i = $offset; $i < min($offset + $posts_per_page, $total_categories); $i++) {
-                // Construct the shortcode with the dynamic category value
-                $shortcode = '[display_shows_by_category category="' . $categories[$i]->name . '"]';
-                // Output the shortcode
-                echo do_shortcode($shortcode);
-            }
-            echo '</div>';
-
-            // Output pagination buttons
-            if ($total_pages > 1) {
-                echo '<div class="pagination flex justify-center my-4">';
-                if ($paged > 1) {
-                    echo '<a href="#" data-page="' . ($paged - 1) . '" class="button prev px-2 py-1 mx-1 bg-gray-200 hover:bg-gray-300">Previous</a>';
-                }
-                // Display all page links
-                for ($i = 1; $i <= $total_pages; $i++) {
-                    $current_page_class = ($paged == $i) ? 'bg-white text-black border border-slate-300 shadow-xl' : 'bg-gray-200 hover:bg-gray-300';
-                    echo '<a href="#" data-page="' . $i . '" class="button ' . $current_page_class . ' px-2 py-1 mx-1">' . $i . '</a>';
-                }
-                if ($paged < $total_pages) {
-                    echo '<a href="#" data-page="' . ($paged + 1) . '" class="button next px-2 py-1 mx-1 bg-gray-200 hover:bg-gray-300">Next</a>';
+                echo '<div id="categories">';
+                // Loop through each category and display shortcode for each
+                for ($i = $offset; $i < min($offset + $posts_per_page, $total_categories); $i++) {
+                    // Construct the shortcode with the dynamic category value
+                    $shortcode = '[display_shows_by_category category="' . esc_attr($categories[$i]->name) . '"]';
+                    // Output the shortcode
+                    echo do_shortcode($shortcode);
                 }
                 echo '</div>';
+
+                // Output pagination buttons
+                if ($total_pages > 1) {
+                    echo '<div class="pagination flex justify-center my-4">';
+                    if ($paged > 1) {
+                        echo '<a href="#" data-page="' . ($paged - 1) . '" class="button prev px-2 py-1 mx-1 bg-gray-200 hover:bg-gray-300">Previous</a>';
+                    }
+                    // Display all page links
+                    for ($i = 1; $i <= $total_pages; $i++) {
+                        $current_page_class = ($paged == $i) ? 'bg-white text-black border border-slate-300 shadow-xl' : 'bg-gray-200 hover:bg-gray-300';
+                        echo '<a href="#" data-page="' . $i . '" class="button ' . $current_page_class . ' px-2 py-1 mx-1">' . $i . '</a>';
+                    }
+                    if ($paged < $total_pages) {
+                        echo '<a href="#" data-page="' . ($paged + 1) . '" class="button next px-2 py-1 mx-1 bg-gray-200 hover:bg-gray-300">Next</a>';
+                    }
+                    echo '</div>';
+                }
             }
-        }
+            ?>
+    </div>
+    <?php
     }
     ?>
-    </div>
 </div>
-</div>
+
 <?php
 get_footer();
 ?>
