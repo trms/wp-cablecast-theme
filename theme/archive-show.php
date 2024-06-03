@@ -17,9 +17,10 @@ get_header();
         ?>
     <div class="search-container w-full text-center">
         <h1 class="text-center text-3xl font-bold my-4">Shows</h1>
-        <input type="text" id="show-search" class="w-3/4 my-0 mx-auto p-2" placeholder="Search shows">
-        <div id="show-thumbnails"></div>
+        <input type="text" id="show-search" class="w-3/4 border border-gray-100 shadow my-0 mx-auto p-2"
+            placeholder="Search shows" <div id="show-thumbnails">
     </div>
+
     <div id="categories-container">
         <?php
         // Check if the spinner is not visible and neither category nor search term is present
@@ -68,7 +69,7 @@ get_header();
     ?>
     </div>
 </div>
-
+</div>
 <?php
 get_footer();
 ?>
@@ -109,7 +110,7 @@ jQuery(document).ready(function($) {
             success: function(response) {
                 $('#show-thumbnails').html(response);
                 $('#spinner')
-            .hide(); // Hide the spinner once the AJAX request is successful
+                    .hide(); // Hide the spinner once the AJAX request is successful
             },
             error: function(xhr, status, error) {
                 console.error(xhr.responseText);
@@ -139,7 +140,7 @@ jQuery(document).ready(function($) {
                         .pagination);
                 }
                 $('#spinner')
-            .hide(); // Hide the spinner once the AJAX request is successful
+                    .hide(); // Hide the spinner once the AJAX request is successful
             },
             error: function(xhr, status, error) {
                 console.error(xhr.responseText);
