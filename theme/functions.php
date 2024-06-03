@@ -193,6 +193,76 @@ function url_exists($url) {
     return strpos($headers[0], '200') !== false;
 }
 
+function search_shows_callback() {
+    $searchTerm = $_POST['searchTerm'];
+
+    // Query shows based on search term
+    $args = array(
+        'post_type'      => 'show', // Custom post type name
+        's'              => $searchTerm,
+        'posts_per_page' => -1 // Retrieve all matching posts
+    );
+
+    $query = new WP_Query($args);
+
+    // Initialize output variable
+    $output = '';
+
+    // Render thumbnails of matching shows
+    if ($query->have_posts()) {
+        $output .= '<div class="show-list mt-8">';
+        $output .= '<div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">'; 
+
+        while ($query->have_posts()) {
+            $query->the_post();
+            $post_id = get_the_ID();
+
+            // Begin individual show container
+            $output .= '<div class="show-container relative">';
+
+            // Start link tag wrapping both thumbnail and title
+            $output .= '<a href="' . esc_url(get_permalink()) . '" class="no-underline hover:underline">';
+
+			// Thumbnail logic
+			if (has_post_thumbnail()) {
+				$thumbnail_html = '<img src="' . esc_url(get_the_post_thumbnail_url($post_id, 'full')) . '" alt="' . esc_attr(get_the_title()) . '" class="attachment-post-thumbnail size-post-thumbnail wp-post-image">';
+				$output .= '<div>' . $thumbnail_html . '</div>';
+			} else {
+				// If no thumbnail is available, use the placeholder image
+				$placeholder_url = get_template_directory_uri() . '/thumbnail_placeholder.png'; // Adjust the path as needed
+				$output .= '<img src="' . $placeholder_url . '" alt="Thumbnail Placeholder" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" >';
+			}
+
+            // Show title
+            $output .= '<span class="show-title !text-brand-secondary break-words">' . esc_html(get_the_title()) . '</span>';
+
+            // End link tag
+            $output .= '</a>';
+
+            $output .= '</div>'; // End individual show container
+        }
+
+        $output .= '</div>'; // Close the grid container
+        $output .= '</div>'; // Close the show-list container
+    } else {
+        // No shows found
+        $output .= '<p class="mt-4">No shows found.</p>';
+    }
+
+    // Output the HTML
+    echo $output;
+
+    // Reset post data
+    wp_reset_postdata();
+
+    // Ensure that no further processing is performed
+    wp_die();
+}
+add_action('wp_ajax_search_shows', 'search_shows_callback');
+add_action('wp_ajax_nopriv_search_shows', 'search_shows_callback');
+
+
+
 function display_shows_by_category_shortcode($atts) {
     // Extract attributes
     $atts = shortcode_atts(array(
@@ -267,6 +337,10 @@ function display_shows_by_category_shortcode($atts) {
 			if (has_post_thumbnail()) {
 				$thumbnail_html = '<img src="' . esc_url(get_the_post_thumbnail_url($post_id, 'full')) . '" alt="' . esc_attr(get_the_title()) . '" class="attachment-post-thumbnail size-post-thumbnail wp-post-image">';
 				$output .= '<div>' . $thumbnail_html . '</div>';
+			} else {
+				// If no thumbnail is available, use the placeholder image
+				$placeholder_url = get_template_directory_uri() . '/thumbnail_placeholder.png'; // Adjust the path as needed
+				$output .= '<img src="' . $placeholder_url . '" alt="Thumbnail Placeholder" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" >';
 			}
 		
 			// Show title
@@ -285,7 +359,7 @@ function display_shows_by_category_shortcode($atts) {
         $output .= '</div>'; // Close the show-list container
     } else {
         // No shows found
-        $output .= '<p>No shows found in the ' . $category . ' category.</p>';
+        $output .= '<p class="mt-4">No shows found in the ' . $category . ' category.</p>';
     }
 
     return $output;
@@ -293,6 +367,66 @@ function display_shows_by_category_shortcode($atts) {
 
 // Register the shortcode
 add_shortcode('display_shows_by_category', 'display_shows_by_category_shortcode');
+
+function load_categories_callback() {
+    // Get the page number from the AJAX request
+    $paged = isset($_POST['page']) ? intval($_POST['page']) : 1;
+    
+    // Get all categories
+    $categories = get_categories(array(
+        'taxonomy'   => 'category',
+        'hide_empty' => false, // Include categories with no posts
+    ));
+    
+    // Paginate categories
+    $posts_per_page = 10;
+    $total_categories = count($categories);
+    $total_pages = ceil($total_categories / $posts_per_page);
+    $offset = ($paged - 1) * $posts_per_page;
+
+    // Output categories
+    ob_start();
+    echo '<div id="categories">';
+    // Loop through each category and display shortcode for each
+    for ($i = $offset; $i < min($offset + $posts_per_page, $total_categories); $i++) {
+        // Construct the shortcode with the dynamic category value
+        $shortcode = '[display_shows_by_category category="' . $categories[$i]->name . '"]';
+        // Output the shortcode
+        echo do_shortcode($shortcode);
+    }
+    echo '</div>';
+    $categories_html = ob_get_clean();
+
+    // Output pagination buttons
+    ob_start();
+    if ($total_pages > 1) {
+        echo '<div class="pagination flex justify-center my-4">';
+        if ($paged > 1) {
+            echo '<a href="#" data-page="' . ($paged - 1) . '" class="button prev px-2 py-1 mx-1 bg-gray-200 hover:bg-gray-300">Previous</a>';
+        }
+        // Display all page links
+        for ($i = 1; $i <= $total_pages; $i++) {
+            $current_page_class = ($paged == $i) ? 'bg-white text-black border border-slate-300 shadow-xl' : 'bg-gray-200 hover:bg-gray-300';
+            echo '<a href="#" data-page="' . $i . '" class="button ' . $current_page_class . ' px-2 py-1 mx-1">' . $i . '</a>';
+        }
+        if ($paged < $total_pages) {
+            echo '<a href="#" data-page="' . ($paged + 1) . '" class="button next px-2 py-1 mx-1 bg-gray-200 hover:bg-gray-300">Next</a>';
+        }
+        echo '</div>';
+    }
+    $pagination_html = ob_get_clean();
+
+    // Return the response as JSON
+    wp_send_json_success(array(
+        'categories' => $categories_html,
+        'pagination' => $pagination_html,
+    ));
+}
+add_action('wp_ajax_load_categories', 'load_categories_callback');
+add_action('wp_ajax_nopriv_load_categories', 'load_categories_callback');
+
+
+
 
 function hide_admin_bar_from_non_admins() {
     if (!current_user_can('administrator')) {
@@ -406,3 +540,8 @@ function cablecast_customizer_css() {
 <?php
 }
 add_action('wp_head', 'cablecast_customizer_css');
+
+function my_theme_enqueue_scripts() {
+    wp_enqueue_script('jquery');
+}
+add_action('wp_enqueue_scripts', 'my_theme_enqueue_scripts');
