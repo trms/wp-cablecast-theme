@@ -306,7 +306,7 @@ function display_shows_by_category_shortcode($atts) {
 
         $output .= '<div class="show-list">';
         $output .= '<div class="flex justify-between items-center">';
-        $output .= '<h2 class="uppercase text-3xl my-4">' . $category . '</h2>';
+        $output .= '<h2 class="uppercase text-2xl my-4">' . $category . '</h2>';
 
         // Only show link if not on a page with "shows" slug
         if (!$hide_view_all_link && !empty($view_all_link)) {

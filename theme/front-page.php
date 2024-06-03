@@ -1,10 +1,7 @@
 <?php
 /**
- * The template for displaying all pages
+ * The template for displaying the front page
  *
- * This is the template that displays all pages by default. Please note that
- * this is the WordPress construct of pages: specifically, posts with a post
- * type of `page`.
  *
  * @link https://developer.wordpress.org/themes/basics/template-hierarchy/
  *
@@ -18,7 +15,7 @@ get_header();
 
     <section id="primary" class="p-2">
         <main id="main">
-		<h2 class="page-title text-center"><?php single_post_title(); ?></h2>
+		
             <?php
 
 			/* Start the Loop */
