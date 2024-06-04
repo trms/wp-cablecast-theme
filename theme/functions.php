@@ -545,3 +545,16 @@ function my_theme_enqueue_scripts() {
     wp_enqueue_script('jquery');
 }
 add_action('wp_enqueue_scripts', 'my_theme_enqueue_scripts');
+
+add_post_type_support( 'page', 'excerpt' );
+
+
+// extends number of custom field names in drop down -----
+
+function customfield_limit_increase( $limit ) {
+    $limit = 200;
+    return $limit;
+  }
+  add_filter( 'postmeta_form_limit', 'customfield_limit_increase' );
+
+// ------  end extend
