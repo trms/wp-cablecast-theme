@@ -306,7 +306,7 @@ function display_shows_by_category_shortcode($atts) {
 
         $output .= '<div class="show-list">';
         $output .= '<div class="flex justify-between items-center">';
-        $output .= '<h2 class="uppercase text-3xl my-4">' . $category . '</h2>';
+        $output .= '<h2 class="uppercase text-2xl my-4">' . $category . '</h2>';
 
         // Only show link if not on a page with "shows" slug
         if (!$hide_view_all_link && !empty($view_all_link)) {
@@ -545,3 +545,16 @@ function my_theme_enqueue_scripts() {
     wp_enqueue_script('jquery');
 }
 add_action('wp_enqueue_scripts', 'my_theme_enqueue_scripts');
+
+add_post_type_support( 'page', 'excerpt' );
+
+
+// extends number of custom field names in drop down -----
+
+function customfield_limit_increase( $limit ) {
+    $limit = 200;
+    return $limit;
+  }
+  add_filter( 'postmeta_form_limit', 'customfield_limit_increase' );
+
+// ------  end extend
