@@ -149,3 +149,48 @@ form#loginform {
 		max-height: 40px;
 	}
 }
+  
+  /* Custom CSS for the About Page */
+  
+  .about-info-container {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 20px;
+	align-items: center;
+  }
+  
+  .about-description {
+	flex: 60%;
+  }
+  
+  .about-feature-image {
+	flex: 30%;
+  }
+  
+  .about-page-main-content {
+	margin: 50px 0;
+  }
+  
+  .contact-info-container .post-meta {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 50px;
+	align-items: center;
+  }
+  
+  .contact-info-title {
+	font-size: 1.5rem;
+	font-weight: bold;
+	text-align: center;
+	margin: 50px 0;
+  }
+  
+  .contact-info-container .post-meta-key {
+	font-weight: bold;
+	display: block;
+  }
+  
+  .contact-info-container .post-meta li {
+	flex-basis: 20%;
+	flex-grow: 1;
+  }
