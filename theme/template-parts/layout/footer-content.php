@@ -36,7 +36,8 @@
                                 array(
                                     'theme_location' => 'menu-2',
                                     'menu_id'        => 'footer-menu-col-1',
-                                    'items_wrap'     => '<div class="menu-name font-bold">' . wp_kses_post( $menu->name ) . '</div><ul id="%1$s" class="%2$s flex justify-start flex-col" aria-label="submenu">%3$s</ul>',
+                                    //'items_wrap'     => '<div class="menu-name font-bold">' . wp_kses_post( $menu->name ) . '</div><ul id="%1$s" class="%2$s flex justify-start flex-col" aria-label="submenu">%3$s</ul>',
+                                    'items_wrap'     => '<ul id="%1$s" class="%2$s flex justify-start flex-col" aria-label="submenu">%3$s</ul>',
                                 )
                             );
                         }
@@ -50,7 +51,8 @@
                                 array(
                                     'theme_location' => 'menu-3',
                                     'menu_id'        => 'footer-menu-col-2',
-                                    'items_wrap'     => '<div class="menu-name font-bold">' . wp_kses_post( $menu->name ) . '</div><ul id="%1$s" class="%2$s flex justify-start flex-col" aria-label="submenu">%3$s</ul>',
+                                    //'items_wrap'     => '<div class="menu-name font-bold">' . wp_kses_post( $menu->name ) . '</div><ul id="%1$s" class="%2$s flex justify-start flex-col" aria-label="submenu">%3$s</ul>',
+                                    'items_wrap'     => '<ul id="%1$s" class="%2$s flex justify-start flex-col" aria-label="submenu">%3$s</ul>',
                                 )
                             );
                         }
@@ -64,7 +66,8 @@
                                 array(
                                     'theme_location' => 'menu-4',
                                     'menu_id'        => 'footer-menu-col-3',
-                                    'items_wrap'     => '<div class="menu-name font-bold">' . wp_kses_post( $menu->name ) . '</div><ul id="%1$s" class="%2$s flex justify-start flex-col" aria-label="submenu">%3$s</ul>',
+                                    //'items_wrap'     => '<div class="menu-name font-bold">' . wp_kses_post( $menu->name ) . '</div><ul id="%1$s" class="%2$s flex justify-start flex-col" aria-label="submenu">%3$s</ul>',
+                                    'items_wrap'     => '<ul id="%1$s" class="%2$s flex justify-start flex-col" aria-label="submenu">%3$s</ul>',
                                 )
                             );
                         }

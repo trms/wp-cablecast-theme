@@ -25,7 +25,7 @@
 							$custom_logo_id = get_theme_mod( 'custom_logo' );
 							$image = wp_get_attachment_image_src( $custom_logo_id , 'full' );
 						?>
-                        <img class="h-auto w-auto max-h-20 max-w-full" src=" <?php echo $image[0]; ?>" alt="">
+                        <img class="h-auto w-auto max-h-20 p-1 max-w-full" src=" <?php echo $image[0]; ?>" alt="">
                     </a>
                 </div>
                 <div class="lg:hidden absolute right-0 hamburger-icon">

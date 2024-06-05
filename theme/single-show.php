@@ -42,8 +42,8 @@
                                     <span>This Content requires a membership to view.</span>
                                     <span>Login or register below.</span>
                                     <div class="mt-4">
-                                        <a href="/login" class="btn secondary-button hover:shadow-xl text-white  py-2 px-4 ">Login</a>
-                                        <a href="/register" class="btn secondary-button hover:shadow-xl text-white  py-2 px-4 ">Register</a>
+                                        <a href="/login" class="btn secondary-button hover:shadow text-white  py-2 px-4 ">Login</a>
+                                        <a href="/register" class="btn secondary-button hover:shadow text-white  py-2 px-4 ">Register</a>
                                     </div>
                                 </div>  
                             </div>';
@@ -51,12 +51,12 @@
                     }
                 }
 
-                the_title('<h1 class="text-3xl mt-8 mb-4">', '</h1>');
+                the_title('<h2 class="text-3xl font-bold mt-8 mb-4">', '</h2>');
                 
                 echo '<div class="mb-4">' . get_post_meta($post_id, 'cablecast_show_comments', true) . '</div>';
 
                 // Flex container for custom fields in two columns
-                echo '<div class="sm:flex justify-between sm:w-2/3">';
+                echo '<div class="sm:flex justify-between">';
                 $fields = [
                     'cablecast_producer_name' => 'Producer',
                     'cablecast_category_name' => 'Category',
@@ -76,14 +76,14 @@
                 $col2 = array_slice($fields, 2, null, true); // Second half of fields
 
                 // Column 1
-                echo '<div class="flex-1">';
+                echo '<div class="flex-1 mr-4">';
                 foreach ($col1 as $key => $label) {
                     $value = get_post_meta($post_id, $key, true);
                     if ($key == 'cablecast_show_trt') {
                         $value = $trtFormatted; // Use formatted time for TRT
                     }
                     if ($value) {
-                        echo '<div><span class="font-bold">' . $label . ': </span>' . $value . '</div>';
+                        echo '<div class="mb-2"><span class="font-bold">' . $label . ': </span>' . $value . '</div>';
                     }
                 }
                 echo '</div>';
@@ -93,7 +93,7 @@
                 foreach ($col2 as $key => $label) {
                     $value = get_post_meta($post_id, $key, true);
                     if ($value) {
-                        echo '<div><span class="font-bold">' . $label . ': </span>' . $value . '</div>';
+                        echo '<div class="mb-2"><span class="font-bold">' . $label . ': </span>' . $value . '</div>';
                     }
                 }
                 echo '</div>';
