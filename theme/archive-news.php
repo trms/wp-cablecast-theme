@@ -24,9 +24,10 @@
           </div>
 
         </div>
-  <?php } 
-    echo paginate_links();
-  ?>
+  <?php } ?>
+    <div class="news-pagination-container">
+    <?php echo paginate_links();?>
+    </div>
 </div>
 
 <?php get_footer(); ?>

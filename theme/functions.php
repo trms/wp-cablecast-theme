@@ -310,7 +310,7 @@ function display_shows_by_category_shortcode($atts) {
 
         // Only show link if not on a page with "shows" slug
         if (!$hide_view_all_link && !empty($view_all_link)) {
-            $output .= '<a class="!text-brand-accent no-underline hover:underline my-4" href="' . $view_all_link . '">View All</a>';
+            $output .= '<a class="!text-brand-accent no-underline hover:underline mt-5" href="' . $view_all_link . '">View All</a>';
         }
         
         $output .= '</div>';
@@ -400,9 +400,9 @@ function load_categories_callback() {
     // Output pagination buttons
     ob_start();
     if ($total_pages > 1) {
-        echo '<div class="pagination flex justify-center my-4">';
+        echo '<div class="pagination flex justify-center py-5 mt-10">';
         if ($paged > 1) {
-            echo '<a href="#" data-page="' . ($paged - 1) . '" class="button prev px-2 py-1 mx-1 bg-gray-200 hover:bg-gray-300">Previous</a>';
+            echo '<a href="#" data-page="' . ($paged - 1) . '" class="button prev px-2 py-1 mx-1 bg-gray-200 hover:bg-gray-300">« Previous</a>';
         }
         // Display all page links
         for ($i = 1; $i <= $total_pages; $i++) {
@@ -410,7 +410,7 @@ function load_categories_callback() {
             echo '<a href="#" data-page="' . $i . '" class="button ' . $current_page_class . ' px-2 py-1 mx-1">' . $i . '</a>';
         }
         if ($paged < $total_pages) {
-            echo '<a href="#" data-page="' . ($paged + 1) . '" class="button next px-2 py-1 mx-1 bg-gray-200 hover:bg-gray-300">Next</a>';
+            echo '<a href="#" data-page="' . ($paged + 1) . '" class="button next px-2 py-1 mx-1 bg-gray-200 hover:bg-gray-300">Next »</a>';
         }
         echo '</div>';
     }
@@ -545,3 +545,5 @@ function my_theme_enqueue_scripts() {
     wp_enqueue_script('jquery');
 }
 add_action('wp_enqueue_scripts', 'my_theme_enqueue_scripts');
+
+add_post_type_support( 'page', 'excerpt' );

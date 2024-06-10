@@ -10,7 +10,7 @@
 ?>
 
 <footer class="bg-brand-secondary relative w-full  py-8 px-2">
-    <div id="bottombar-container" <!-- site navigation -->
+    <div id="bottombar-container"> <!-- site navigation -->
         <nav id=" site-navigation" aria-label="<?php esc_attr_e( 'Main Navigation', 'cablecast' ); ?>">
             <button class="hidden" aria-controls="primary-menu"
                 aria-expanded="false"><?php esc_html_e( 'Primary Menu', 'cablecast' ); ?></button>
@@ -95,5 +95,6 @@
                         }
                         ?>
         </div>
+        <div class="footer-copyright"> Copyright &copy; <? the_date('Y') ?> Tightrope Media Systems</div>
     </div>
 </footer>

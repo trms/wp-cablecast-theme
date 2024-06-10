@@ -15,8 +15,6 @@
 	
 	</header><!-- .entry-header -->
 
-	<?php cablecast_post_thumbnail(); ?>
-
 	<div <?php cablecast_content_class( 'entry-content' ); ?>>
 		<?php
 		the_content();
@@ -33,11 +31,11 @@
 	<?php if ( get_edit_post_link() ) : ?>
 		<footer class="entry-footer">
 			<?php
-			edit_post_link(
+			/* edit_post_link(
 				sprintf(
 					wp_kses(
 						/* translators: %s: Name of current post. Only visible to screen readers. */
-						__( 'Edit <span class="sr-only">%s</span>', 'cablecast' ),
+						/* __( 'Edit <span class="sr-only">%s</span>', 'cablecast' ),
 						array(
 							'span' => array(
 								'class' => array(),
@@ -46,7 +44,7 @@
 					),
 					get_the_title()
 				)
-			);
+			); */
 			?>
 		</footer><!-- .entry-footer -->
 	<?php endif; ?>

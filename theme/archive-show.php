@@ -53,9 +53,9 @@ get_header();
 
                 // Output pagination buttons
                 if ($total_pages > 1) {
-                    echo '<div class="pagination flex justify-center my-10">';
+                    echo '<div class="pagination flex justify-center py-5">';
                     if ($paged > 1) {
-                        echo '<a href="#" data-page="' . ($paged - 1) . '" class="button prev px-2 py-1 mx-1 bg-gray-200 hover:bg-gray-300">Previous</a>';
+                        echo '<a href="#" data-page="' . ($paged - 1) . '" class="button prev px-2 py-1 mx-1 bg-gray-200 hover:bg-gray-300">« Previous</a>';
                     }
                     // Display all page links
                     for ($i = 1; $i <= $total_pages; $i++) {
@@ -63,7 +63,7 @@ get_header();
                         echo '<a href="#" data-page="' . $i . '" class="button ' . $current_page_class . ' px-2 py-1 mx-1">' . $i . '</a>';
                     }
                     if ($paged < $total_pages) {
-                        echo '<a href="#" data-page="' . ($paged + 1) . '" class="button next px-2 py-1 mx-1 bg-gray-200 hover:bg-gray-300">Next</a>';
+                        echo '<a href="#" data-page="' . ($paged + 1) . '" class="button next px-2 py-1 mx-1 bg-gray-200 hover:bg-gray-300">Next »</a>';
                     }
                     echo '</div>';
                 }
