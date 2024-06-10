@@ -163,11 +163,9 @@ form#loginform {
   .about-description {
 	flex: 60%;
   }
-
   .about-description p {
 	margin-bottom: 10px;
   }
-  
   .about-feature-image {
 	flex: 30%;
   }
@@ -175,7 +173,6 @@ form#loginform {
   .about-page-main-content {
 	margin: 50px 0;
   }
-  
   #categories {
 	display: flex;
 	flex-direction: column;
@@ -185,6 +182,7 @@ form#loginform {
   .contact-info-container .post-meta {
 	display: grid;
 	grid-template-columns: auto auto auto;
+
 	gap: 50px;
 	align-items: center;
   }
@@ -290,3 +288,4 @@ form#loginform {
 	overflow: hidden;
 	text-overflow: ellipsis;
   }
+
