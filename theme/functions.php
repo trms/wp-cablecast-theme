@@ -211,7 +211,7 @@ function search_shows_callback() {
     // Render thumbnails of matching shows
     if ($query->have_posts()) {
         $output .= '<div class="show-list mt-8">';
-        $output .= '<div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">'; 
+        $output .= '<div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">'; 
 
         while ($query->have_posts()) {
             $query->the_post();
@@ -246,7 +246,7 @@ function search_shows_callback() {
         $output .= '</div>'; // Close the show-list container
     } else {
         // No shows found
-        $output .= '<p class="mt-4">No shows found.</p>';
+        // $output .= '<p class="mt-4">No shows found.</p>';
     }
 
     // Output the HTML
@@ -306,15 +306,15 @@ function display_shows_by_category_shortcode($atts) {
 
         $output .= '<div class="show-list">';
         $output .= '<div class="flex justify-between items-center">';
-        $output .= '<h2 class="uppercase text-2xl my-4">' . $category . '</h2>';
+        $output .= '<h3 class="uppercase text-2xl font-bold mb-4">' . $category . '</h3>';
 
         // Only show link if not on a page with "shows" slug
         if (!$hide_view_all_link && !empty($view_all_link)) {
-            $output .= '<a class="!text-brand-accent no-underline hover:underline my-4" href="' . $view_all_link . '">View All</a>';
+            $output .= '<a class="!text-brand-accent no-underline hover:underline mt-5" href="' . $view_all_link . '">View All</a>';
         }
         
         $output .= '</div>';
-        $output .= '<div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">'; // 
+        $output .= '<div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-10">'; // 
     
 		while ($query->have_posts()) {
 			$query->the_post();
@@ -400,17 +400,17 @@ function load_categories_callback() {
     // Output pagination buttons
     ob_start();
     if ($total_pages > 1) {
-        echo '<div class="pagination flex justify-center my-4">';
+        echo '<div class="pagination flex justify-center py-5 mt-10">';
         if ($paged > 1) {
-            echo '<a href="#" data-page="' . ($paged - 1) . '" class="button prev px-2 py-1 mx-1 bg-gray-200 hover:bg-gray-300">Previous</a>';
+            echo '<a href="#" data-page="' . ($paged - 1) . '" class="button prev px-2 py-1 mx-1 bg-gray-200 hover:bg-gray-300">« Previous</a>';
         }
         // Display all page links
         for ($i = 1; $i <= $total_pages; $i++) {
-            $current_page_class = ($paged == $i) ? 'bg-white text-black border border-slate-300 shadow-xl' : 'bg-gray-200 hover:bg-gray-300';
+            $current_page_class = ($paged == $i) ? 'bg-white text-black border border-gray-300' : 'bg-gray-200 hover:bg-gray-300';
             echo '<a href="#" data-page="' . $i . '" class="button ' . $current_page_class . ' px-2 py-1 mx-1">' . $i . '</a>';
         }
         if ($paged < $total_pages) {
-            echo '<a href="#" data-page="' . ($paged + 1) . '" class="button next px-2 py-1 mx-1 bg-gray-200 hover:bg-gray-300">Next</a>';
+            echo '<a href="#" data-page="' . ($paged + 1) . '" class="button next px-2 py-1 mx-1 bg-gray-200 hover:bg-gray-300">Next »</a>';
         }
         echo '</div>';
     }
@@ -547,14 +547,3 @@ function my_theme_enqueue_scripts() {
 add_action('wp_enqueue_scripts', 'my_theme_enqueue_scripts');
 
 add_post_type_support( 'page', 'excerpt' );
-
-
-// extends number of custom field names in drop down -----
-
-function customfield_limit_increase( $limit ) {
-    $limit = 200;
-    return $limit;
-  }
-  add_filter( 'postmeta_form_limit', 'customfield_limit_increase' );
-
-// ------  end extend

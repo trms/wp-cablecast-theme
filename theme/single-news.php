@@ -3,12 +3,12 @@
     while (have_posts()) {
         the_post(); ?>
 
-        <div class="news-single-page-content">
+        <div class="news-single-page-content prose">
 
-            <h2 class="news-single-title"><?php the_title(); ?></h2>
+            <h2 class="news-single-title page-title"><?php the_title(); ?></h2>
 
             <div class="news-date">
-                <p>Posted by <?php the_author(); ?> - <?php the_time('n.j.y'); ?></p>
+                Posted by <?php the_author(); ?> - <?php the_time('n.j.y'); ?>
             </div>
             
             <div class="news-thumbnail-single"><?php echo the_post_thumbnail(); ?></div> <!-- remove this line to remove the large thumbnail image -->

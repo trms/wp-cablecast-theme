@@ -2,7 +2,7 @@
 get_header();
 ?>
 
-<div class="entry-content p-2 h-full min-h-screen" id="primary">
+<div class="entry-content h-full min-h-screen" id="primary">
     <div id="spinner" class="spinner" style="display: none;"></div>
 
     <?php
@@ -18,13 +18,14 @@ get_header();
         // Display the search input if no category parameter is set
         ?>
     <div class="search-container w-full text-center">
-        <h1 class="text-center text-3xl font-bold my-4">Shows</h1>
-        <input type="text" id="show-search" class="w-3/4 border border-gray-100 shadow my-0 mx-auto p-2"
+        <h2 class="page-title text-center">SHOWS</h2>
+        <input type="text" id="show-search" class="w-3/4 border border-gray-400 my-0 mx-auto p-2"
             placeholder="Search shows">
     </div>
     <div id="show-thumbnails"></div>
     <div id="categories-container">
         <?php
+        
             // Check if neither category nor search term is present
             if (!isset($_GET['category']) && !isset($_POST['searchTerm'])) {
                 // Get all categories
@@ -52,17 +53,17 @@ get_header();
 
                 // Output pagination buttons
                 if ($total_pages > 1) {
-                    echo '<div class="pagination flex justify-center my-4">';
+                    echo '<div class="pagination flex justify-center py-5">';
                     if ($paged > 1) {
-                        echo '<a href="#" data-page="' . ($paged - 1) . '" class="button prev px-2 py-1 mx-1 bg-gray-200 hover:bg-gray-300">Previous</a>';
+                        echo '<a href="#" data-page="' . ($paged - 1) . '" class="button prev px-2 py-1 mx-1 bg-gray-200 hover:bg-gray-300">« Previous</a>';
                     }
                     // Display all page links
                     for ($i = 1; $i <= $total_pages; $i++) {
-                        $current_page_class = ($paged == $i) ? 'bg-white text-black border border-slate-300 shadow-xl' : 'bg-gray-200 hover:bg-gray-300';
+                        $current_page_class = ($paged == $i) ? 'bg-white text-black border border-gray-300' : 'bg-gray-200 hover:bg-gray-300';
                         echo '<a href="#" data-page="' . $i . '" class="button ' . $current_page_class . ' px-2 py-1 mx-1">' . $i . '</a>';
                     }
                     if ($paged < $total_pages) {
-                        echo '<a href="#" data-page="' . ($paged + 1) . '" class="button next px-2 py-1 mx-1 bg-gray-200 hover:bg-gray-300">Next</a>';
+                        echo '<a href="#" data-page="' . ($paged + 1) . '" class="button next px-2 py-1 mx-1 bg-gray-200 hover:bg-gray-300">Next »</a>';
                     }
                     echo '</div>';
                 }

@@ -7,7 +7,7 @@ Template Name: Cablecast About Page
 get_header();
 ?>
 
-<section id="primary" class="p-2">
+<section id="primary">
         <main id="main">
 		
         <h2 class="page-title text-center"><?php single_post_title(); ?></h2>
