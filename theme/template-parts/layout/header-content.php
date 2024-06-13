@@ -10,14 +10,14 @@
 ?>
 
 <header id="masthead" class="banner">
-    <div id="topbar-container" class="relative mx-auto px-8 w-full md:px-8 border-b border-gray-500">
+    <div id="topbar-container" class="relative mx-auto px-8 w-full md:px-8">
         <!-- site navigation -->
         <nav id="site-navigation" aria-label="<?php esc_attr_e( 'Main Navigation', 'cablecast' ); ?>"
             class="flex justify-between items-center w-full">
             <button class="hidden" aria-controls="primary-menu"
                 aria-expanded="false"><?php esc_html_e( 'Primary Menu', 'cablecast' ); ?></button>
             <div
-                class="relative mx-auto flex w-full px-8 lg:max-w-7xl items-center justify-between md:px-8 border-b border-gray-500">
+                class="relative mx-auto flex w-full px-8 lg:max-w-7xl items-center justify-between md:px-8">
                 <div class="">
                     <a class="" href="/">
                         <!-- Custom Logo -->

@@ -33,22 +33,19 @@ get_header();
 
     <div class="content-area p-2">
         <main id="main" class="site-main">
-            <div class="max-w-7xl mx-auto my-8 md:px-80">
-                <?php the_content();?>
-            </div>
             <div>
                 <div>
-                    <div class="w-full sm:w-1/2 mx-auto shadow-xl my-8 p-8 border border-gray-100  primary">
-                        <h2 class="text-center mb-4 text-2xl font-bold">Login</h2>
+                    <div class="login-container w-full sm:w-1/2 mx-auto my-8 p-8 border border-gray-400 primary">
+                        <h2 class="text-center mb-4 text-2xl font-bold">LOGIN</h2>
                         <form name="loginform" id="loginform" action="" method="post">
                             <p class="login-username flex flex-col gap-y-2">
                                 <label class="font-bold" for="user_login">Username or Email Address</label>
                                 <input type="text" name="log" id="user_login" autocomplete="username"
-                                    class="border border-gray-300 shadow" value="" size="20">
+                                    class="border border-gray-400 p-2" value="" size="20">
                             </p>
                             <p class="login-password flex flex-col gap-y-2 mt-4">
                                 <label class="font-bold" for="user_pass">Password</label>
-                                <input type="password" name="pwd" id="user_pass" class="border border-gray-300 shadow"
+                                <input type="password" name="pwd" id="user_pass" class="border border-gray-400 p-2"
                                     autocomplete="current-password" spellcheck="false" class="input" value="" size="20">
                             </p>
                             <?php if (!empty($error)) : ?>
