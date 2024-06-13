@@ -18,7 +18,11 @@
             <h3 class="news-item-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
 
             <div class="news-content">
-              <?php the_excerpt(); ?>
+              <?php if (has_excerpt()) {
+                      echo get_the_excerpt();
+                    } else {
+                      echo wp_trim_words(get_the_content(), 18);
+                    }  ?>
               <p><a class="news-readmore-btn" href="<?php the_permalink(); ?>">Continue reading &raquo;</a></p>
             </div>
           </div>

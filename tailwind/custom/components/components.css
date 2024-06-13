@@ -32,6 +32,7 @@
  *
  * https://make.wordpress.org/core/2021/06/29/on-layout-and-content-width-in-wordpress-5-8/
  */
+ 
 .page-content > *,
 .entry-content > * {
 	/* Content width from the `theme.json` file */
@@ -83,6 +84,10 @@ p.login-username {
 form#loginform {
 	display: flex;
 	flex-direction: column;
+}
+
+.login-container {
+	border-radius: 10px;
 }
 
 /* CONTENT RESTRICTION  */
@@ -229,7 +234,7 @@ form#loginform {
 	flex-wrap: wrap;
 	gap: 50px;
 	align-items: center;
-	margin-top: 40px;
+	margin-top: 20px;
 	padding-bottom: 40px;
 	border-bottom: 1px solid #bbb;
   }
@@ -289,3 +294,107 @@ form#loginform {
 	text-overflow: ellipsis;
   }
 
+/* Custom CSS for the Channels pages */
+
+.channel-archive-thumbnail {
+	background-color: #fff;
+	border: 1px solid #bbb;
+	border-radius: 10px;
+	max-width: 300px;
+	overflow: hidden;
+  }
+
+.channel-archive-container {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-around;
+	gap: 30px;
+	align-items: center;
+	padding-bottom: 50px;
+	margin-top: 50px;
+  }
+  .channel-archive-titles {
+	font-weight: bold;
+	font-size: 1.5rem;
+  }
+
+  .channel-archive-schedule-title {
+	font-weight: bold;
+	margin-top: 10px;
+	text-transform: uppercase;
+  }
+
+  .channel-single-page-content table {
+	max-width: 800px;
+  }
+
+  .channel-single-page-content th {
+	text-align: left;
+  }
+
+  .channel-single-page-title {
+	text-transform: uppercase;
+	margin-top: 20px;
+	font-size: 1.875rem;
+	font-weight: bold;
+  }
+
+  .schedule-time {
+	min-width: 100px;
+  }
+
+  .schedule-title-container {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	max-width: 800px;
+	margin-top: 30px;
+  }
+
+  .schedule-title-container h3 {
+	margin-top: 0;
+	margin-bottom: 0;
+	text-transform: uppercase;
+  }
+
+  /* Custom CSS for Edit Profile Page */
+
+  #rcp_profile_editor_form {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+  }
+  #rcp_profile_editor_form .rcp-input, #rcp_profile_editor_form select {
+	border: 1px solid #bbb;
+	display: block;
+	width: 100%;
+	max-width: 500px;
+  }
+
+  #rcp_profile_editor_form select {
+	padding: 7px 5px;
+  }
+
+  #rcp_profile_editor_form legend {
+	font-weight: bold;
+	text-transform: uppercase;
+	font-size: 1.5rem;
+  }
+  .rcp-button {
+	color:#fff;
+	padding: .5rem 1rem;
+	background-color: #3192C8; /* TO DO: need to hook this up to the brand accent color */
+
+  }
+
+  /* Custom CSS for the Membership page */
+
+  .rcp-table-wrapper h3 {
+	text-transform: uppercase;
+	font-size: 1.5rem;
+	font-weight: bold;
+  }
+
+  .rcp-table th {
+	padding-top: 5px;
+  }

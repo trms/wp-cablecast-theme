@@ -2,9 +2,9 @@
 
     while (have_posts()) {
         the_post(); ?>
-
+        <a href="/news" class="!text-brand-accent hover:underline pl-5">« Back to News</a>
         <div class="news-single-page-content prose">
-
+            
             <h2 class="news-single-title page-title"><?php the_title(); ?></h2>
 
             <div class="news-date">
