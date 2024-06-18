@@ -246,6 +246,7 @@ function search_shows_callback() {
         $output .= '</div>'; // Close the show-list container
     } else {
         // No shows found
+        echo '';
         // $output .= '<p class="mt-4">No shows found.</p>';
     }
 
