@@ -357,6 +357,41 @@ form#loginform {
 	text-transform: uppercase;
   }
 
+  /* Custom CSS for the Watch page */
+
+  .wrap {
+	position: relative;
+	width: 100%;
+	overflow: hidden;
+	padding-top: 56.25%; /* 16:9 Aspect Ratio */
+  }
+  
+  .trms-player {
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	width: 100%;
+	height: 100%;
+	border: none;
+  }
+
+  .watch-content-container h3, .watch-content-container table, .watch-content-container a {
+	display: none;
+  }
+
+  /* Custom CSS for the Schedule Page */
+
+  .schedule-content-container iframe {
+	display: none;
+  }
+
+  .schedule-page-nagivation, .watch-page-nagivation {
+	display: flex;
+	justify-content: space-between;
+  }
+
   /* Custom CSS for Edit Profile Page */
 
   #rcp_profile_editor_form {
