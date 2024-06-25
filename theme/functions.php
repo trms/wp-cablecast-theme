@@ -548,3 +548,43 @@ function my_theme_enqueue_scripts() {
 add_action('wp_enqueue_scripts', 'my_theme_enqueue_scripts');
 
 add_post_type_support( 'page', 'excerpt' );
+
+
+
+function load_custom_channel_template($template) {
+    $channel_page = get_query_var('channel_page');
+    if ($channel_page) {
+        if ($channel_page == 'watch') {
+            $new_template = locate_template(array('single-cablecast_channel-watch.php'));
+            if ($new_template) {
+                return $new_template;
+            }
+        } elseif ($channel_page == 'schedule') {
+            $new_template = locate_template(array('single-cablecast_channel-schedule.php'));
+            if ($new_template) {
+                return $new_template;
+            }
+        }
+    }
+    return $template;
+}
+add_filter('template_include', 'load_custom_channel_template');
+
+
+function flush_channel_rewrite_rules() {
+    add_channel_rewrite_rules();
+    flush_rewrite_rules();
+}
+register_activation_hook(__FILE__, 'flush_channel_rewrite_rules');
+
+function add_channel_rewrite_rules() {
+    add_rewrite_rule('channel/([^/]+)/watch/?$', 'index.php?cablecast_channel=$matches[1]&channel_page=watch', 'top');
+    add_rewrite_rule('channel/([^/]+)/schedule/?$', 'index.php?cablecast_channel=$matches[1]&channel_page=schedule', 'top');
+}
+add_action('init', 'add_channel_rewrite_rules');
+
+function add_channel_query_vars($query_vars) {
+    $query_vars[] = 'channel_page';
+    return $query_vars;
+}
+add_filter('query_vars', 'add_channel_query_vars');
