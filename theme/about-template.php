@@ -22,9 +22,6 @@ get_header();
         <h3 class="contact-info-title">GET IN TOUCH</h3>
         <div class="contact-info-container">
         <?php the_meta(); ?>
-            <!-- <div class="contact-info"><strong>Phone:</strong><p>952-223-4455</p></div>
-            <div class="contact-info"><strong>Address:</strong><p>400 South 4th Street #410,<br> Minneapolis MN 55415</p></div>
-            <div class="contact-info"><strong>Email:</strong><p>support@cablecast.tv</p></div> -->
         </div>
 
         <div class="about-page-main-content"><?php the_content(); ?></div>
