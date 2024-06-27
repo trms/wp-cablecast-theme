@@ -56,12 +56,17 @@ get_header();
                             <p class="login-remember flex flex-col gap-y-2 mt-4"><label><input name="rememberme"
                                         type="checkbox" class="font-bold" id="rememberme" value="forever"> Remember
                                     Me</label></p>
-                            <p class="login-submit mt-8">
+                            
+                            <p class="login-submit mt-5">
                                 <input type="submit" name="wp-submit" id="wp-submit"
                                     class="button button-primary button-secondary p-2 text-white" value="Log In"
                                     disabled style="cursor: default; background-color: #ccc;">
                                 <input type="hidden" name="redirect_to" value="<?php echo esc_url( home_url() ); ?>">
                             </p>
+                            <div class="login-new-membership-container">
+                                <p class="pt-3">Not a member yet?</p>
+                                <a href="/register" class="!text-brand-accent hover:underline">Register your new membership</a>
+                            </div>
                         </form>
 
                     </div>

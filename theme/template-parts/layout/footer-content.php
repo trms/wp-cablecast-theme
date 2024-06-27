@@ -15,64 +15,61 @@
             <button class="hidden" aria-controls="primary-menu"
                 aria-expanded="false"><?php esc_html_e( 'Primary Menu', 'cablecast' ); ?></button>
             <div
-                class="relative mx-auto flex max-w-7xl items-center justify-around md:px-8 border-b border-gray-500 pb-8">
-                <div class="">
+                class="relative mx-auto lg:flex max-w-7xl items-center justify-around md:px-8 border-b border-gray-500 pb-8">
+                <div class="flex justify-center">
                     <a class="" href="/">
                         <!-- Custom Logo -->
                         <?php 
 							$custom_logo_id = get_theme_mod( 'custom_logo' );
 							$image = wp_get_attachment_image_src( $custom_logo_id , 'full' );
 						?>
-                        <img class="h-auto w-auto max-h-20 max-w-full" src=" <?php echo $image[0]; ?>" alt="">
+                        <img class="h-auto w-auto max-h-20 max-w-full mb-5" src=" <?php echo $image[0]; ?>" alt="">
                     </a>
                 </div>
-                <div class="flex w-1/2 justify-between">
-                    <div class="text-white ">
+                <div class="flex flex-col sm:flex-row lg:w-1/2 justify-between gap-4 sm:gap-0 text-center sm:text-left">
                         <?php
 						$locations = get_nav_menu_locations();
-                        if (isset($locations['menu-2'])) {
+                        /* if (isset($locations['menu-2'])) {
+                            
+                           echo '<div class="text-white menu-2">';
                             $menu = wp_get_nav_menu_object( $locations['menu-2'] );
                             wp_nav_menu(
                                 array(
                                     'theme_location' => 'menu-2',
                                     'menu_id'        => 'footer-menu-col-1',
-                                    //'items_wrap'     => '<div class="menu-name font-bold">' . wp_kses_post( $menu->name ) . '</div><ul id="%1$s" class="%2$s flex justify-start flex-col" aria-label="submenu">%3$s</ul>',
                                     'items_wrap'     => '<ul id="%1$s" class="%2$s flex justify-start flex-col" aria-label="submenu">%3$s</ul>',
                                 )
                             );
-                        }
-                        ?>
-                    </div>
-                    <div class="text-white ">
-                        <?php
+                            echo '</div>';
+                         } */
+                       
                         if (isset($locations['menu-3'])) {
+                            echo '<div class="text-white menu-3">';
                             $menu = wp_get_nav_menu_object( $locations['menu-3'] );
                             wp_nav_menu(
                                 array(
                                     'theme_location' => 'menu-3',
                                     'menu_id'        => 'footer-menu-col-2',
-                                    //'items_wrap'     => '<div class="menu-name font-bold">' . wp_kses_post( $menu->name ) . '</div><ul id="%1$s" class="%2$s flex justify-start flex-col" aria-label="submenu">%3$s</ul>',
                                     'items_wrap'     => '<ul id="%1$s" class="%2$s flex justify-start flex-col" aria-label="submenu">%3$s</ul>',
                                 )
                             );
+                            echo '</div>';
                         }
-                        ?>
-                    </div>
-                    <div class="text-white ">
-                        <?php
+                        
                         if (isset($locations['menu-4'])) {
+                            echo '<div class="text-white menu-4">';
                             $menu = wp_get_nav_menu_object( $locations['menu-4'] );
                             wp_nav_menu(
                                 array(
                                     'theme_location' => 'menu-4',
                                     'menu_id'        => 'footer-menu-col-3',
-                                    //'items_wrap'     => '<div class="menu-name font-bold">' . wp_kses_post( $menu->name ) . '</div><ul id="%1$s" class="%2$s flex justify-start flex-col" aria-label="submenu">%3$s</ul>',
                                     'items_wrap'     => '<ul id="%1$s" class="%2$s flex justify-start flex-col" aria-label="submenu">%3$s</ul>',
                                 )
                             );
+                            echo '</div>';
                         }
                         ?>
-                    </div>
+                    
                     <?php if (is_user_logged_in()) : ?>
                     <div class="text-white">
                         <?php wp_nav_menu(
