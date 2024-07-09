@@ -203,37 +203,50 @@ form#loginform {
 	flex-direction: column;
 	
   }
-
-  .contact-info-container .post-meta {
-	display: grid;
-	grid-template-columns: auto auto auto;
-
-	gap: 50px;
-	align-items: center;
+ /* Custom Css for the About us Page */ 
+  .app-information {
+	border-top: 1px solid #bbb;
   }
+  .app-icons-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 30px;
+  }
+  .contact-info-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-auto-rows: 1fr;  /* Make all rows the same height */
+    gap: 50px;
+    align-items: stretch; /* Ensure all items stretch to fill the height */
+}
 
   @media only screen and (max-width: 768px) {
-	.contact-info-container .post-meta {
+	.app-icons-container {
+		flex-direction: column;
+	}
+	.contact-info-container {
 		display: block;
 	}
-	.contact-info-container .post-meta li {
+	.contact-info-container div {
 		margin-bottom: 20px;
 	}
   }
   
-  .contact-info-title {
+  .contact-info-title, .app-info-title {
 	font-size: 1.5rem;
 	font-weight: bold;
 	text-align: center;
 	margin: 50px 0;
+	text-transform: uppercase;
   }
   
-  .contact-info-container .post-meta-key {
+  .contact-info-container .meta-title {
 	font-weight: bold;
 	display: block;
   }
   
-  .contact-info-container .post-meta li {
+  .contact-info-container div {
 	flex-basis: 20%;
 	flex-grow: 1;
 	background-color: #ffffff;
@@ -312,7 +325,15 @@ form#loginform {
 
   .show-container img {
 	border: 1px solid #bbb;
+	max-height: 160px;
+	overflow: hidden;
   }
+
+  @media screen and (max-width: 900px) {
+    .show-container img {
+		max-height: 100%;
+	  }
+}
 
   .show-title {
 	white-space: nowrap;
@@ -511,3 +532,8 @@ form#loginform {
 	background-color: #f9f9f9;
   }
 
+/* Custom CSS for Footer Social media */
+
+.footer-social-media-container img {
+	max-width: 30px ;
+}

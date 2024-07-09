@@ -29,7 +29,8 @@
                 <div class="flex flex-col sm:flex-row lg:w-1/2 justify-between gap-4 sm:gap-0 text-center sm:text-left">
                         <?php
 						$locations = get_nav_menu_locations();
-                        /* if (isset($locations['menu-2'])) {
+                        /* -- Keeping this code in case we want to add another menu to the footer --
+                        if (isset($locations['menu-2'])) {
                             
                            echo '<div class="text-white menu-2">';
                             $menu = wp_get_nav_menu_object( $locations['menu-2'] );
@@ -84,6 +85,25 @@
                 </div>
             </div>
         </nav><!-- #site-navigation -->
+
+        <div class="footer-social-media-container flex flex-row justify-center gap-3 mt-5">
+            <?php
+            // Retrieve the settings
+            $contact_info = get_option('contact_info_settings');
+
+            if ($contact_info) {
+                $socials = ['facebook', 'instagram', 'linkedin', 'tiktok', 'youtube'];
+                foreach ($socials as $social) {
+                    if (!empty($contact_info[$social . '_image'])) {
+                        echo '<a href="' . esc_url($contact_info[$social]) . '" target="_blank">';
+                        echo '<img src="' . esc_url($contact_info[$social . '_image']) . '" alt="' . ucfirst($social) . ' Download Image">';
+                        echo '</a>';
+                    }
+                }
+            } 
+            ?>
+        </div>
+
         <div class="text-white text-center mt-4">
             <?php
                         // Output the footer widget area
@@ -94,4 +114,5 @@
         </div>
         <div class="footer-copyright"> Copyright &copy; <? the_date('Y') ?> Tightrope Media Systems</div>
     </div>
+
 </footer>
