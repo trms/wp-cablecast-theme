@@ -201,6 +201,6 @@ function cablecast_html5_comment( $comment, $args, $depth ) {
 				);
 			}
 			?>
-		</article><!-- .comment-body -->
+		</div><article><!-- .comment-body -->
 	<?php
 }

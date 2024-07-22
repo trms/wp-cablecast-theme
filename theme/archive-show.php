@@ -1,16 +1,23 @@
 <?php
 get_header();
 ?>
+<main id="main">
+<article>
+    <div class="accent-color page-title">
+        <h2 class="text-center title-text-color mb-5">SHOWS</h2>
+        <!-- Always display the search header and input -->
+        <div class="search-container w-full text-center pb-5">
+            
+            <input type="text" id="show-search" class="border border-gray-400 my-0 mx-auto p-2"
+                placeholder="Search shows">
+        </div>
+    </div>
+    
+    <div class="show-page-info-container">
 
-<div class="entry-content h-full min-h-screen" id="primary">
+<div class="entry-content h-full show-archive-background" id="primary">
     <div id="spinner" class="spinner" style="display: none;"></div>
 
-    <!-- Always display the search header and input -->
-    <div class="search-container w-full text-center">
-        <h2 class="page-title text-center">SHOWS</h2>
-        <input type="text" id="show-search" class="w-3/4 border border-gray-400 my-0 mx-auto p-2"
-            placeholder="Search shows">
-    </div>
 
     <?php
     // Check if the category parameter is set in the URL
@@ -72,7 +79,8 @@ get_header();
         ?>
     </div>
 </div>
-
+    </div><article>
+</main>
 <?php
 get_footer();
 ?>

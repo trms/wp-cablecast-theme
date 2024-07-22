@@ -77,6 +77,11 @@ if ( ! function_exists( 'cablecast_setup' ) ) :
 		 */
 		add_theme_support( 'post-thumbnails' );
 
+        // add a custom image size. Name, width, height, crop the image (true/false)
+        add_image_size('staffPortrait', 700, 800, true);
+        add_image_size('staffSquare', 700, 700, true);
+        add_image_size('newsHomepage', 338, 190, true);
+
 		register_nav_menus(
 			array(
 				'menu-1' => __( 'Primary', 'cablecast' ),
@@ -85,6 +90,8 @@ if ( ! function_exists( 'cablecast_setup' ) ) :
 				'menu-4' => __( 'Footer Menu Col-3', 'cablecast' ),
 				'menu-5' => __( 'Footer Menu Col-4', 'cablecast' ),
 			)
+        
+
 		);
 
 		/*
@@ -211,7 +218,7 @@ function search_shows_callback() {
     // Render thumbnails of matching shows
     if ($query->have_posts()) {
         $output .= '<div class="show-list mt-8">';
-        $output .= '<div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">'; 
+        $output .= '<div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-10">'; 
 
         while ($query->have_posts()) {
             $query->the_post();
@@ -307,7 +314,7 @@ function display_shows_by_category_shortcode($atts) {
 
         $output .= '<div class="show-list">';
         $output .= '<div class="flex justify-between items-center">';
-        $output .= '<h3 class="uppercase text-2xl font-bold mb-4">' . $category . '</h3>';
+        $output .= '<h3 class="uppercase text-2xl font-bold mb-4 heading-text-color">' . $category . '</h3>';
 
         // Only show link if not on a page with "shows" slug
         if (!$hide_view_all_link && !empty($view_all_link)) {
@@ -471,11 +478,41 @@ function custom_theme_colors( $wp_customize ) {
         'priority' => 30,
     ));
 
+    // Add setting for page title background image
+    $wp_customize->add_setting('page_title_background_image', array(
+        'default' => '',
+        'transport' => 'refresh',
+    ));
+
+    // Add control for page title background image
+    $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, 'page_title_background_image_control', array(
+        'label' => __('Page Title Background Image', 'mytheme'),
+        'section' => 'title_tagline',
+        'settings' => 'page_title_background_image',
+    )));
+
+    // Add setting for section background image
+    $wp_customize->add_setting('section_1_background_image', array(
+        'default' => '',
+        'transport' => 'refresh',
+    ));
+
+    // Add control for section background image
+    $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, 'section_1_background_image_control', array(
+        'label' => __('Background Image 1', 'mytheme'),
+        'section' => 'title_tagline',
+        'settings' => 'section_1_background_image',
+    )));
+
     // Settings and Controls for Color Options with Defaults
     $colors = array(
-        'banner_color'           => array(__('Banner Color', 'cablecast'), '#545C6E'),
+        'banner_color'           => array(__('Header/Footer Color', 'cablecast'), '#545C6E'),
         'main_background_color'       => array(__('Background Color', 'cablecast'), '#E8E8F0'),
-        'gradient_color'         => array(__('Gradient Color', 'cablecast'), '#576b80'),
+        'accent_color'         => array(__('Accent Color', 'cablecast'), '#3192C8'),
+        'submenu_color'         => array(__('Sub Menu Color', 'cablecast'), '#3192C8'),
+        'submenu_text_color'         => array(__('Sub Menu Text Color', 'cablecast'), '#FFFFFF'),
+        'title_text_color'         => array(__('Page Title Text Color', 'cablecast'), '#FFFFFF'),
+        'heading_text_color'         => array(__('Section Heading Text Color', 'cablecast'), '#2DB566'),
         'primary_button_color'   => array(__('Primary Button Color', 'cablecast'), '#2DB566'),
         'primary_button_color_hover'   => array(__('Primary Button Hover Color', 'cablecast'), '#199B4D'),
         'secondary_button_color' => array(__('Secondary Button Color', 'cablecast'), '#3192C8'),
@@ -507,23 +544,84 @@ function custom_theme_colors( $wp_customize ) {
 }
 add_action('customize_register', 'custom_theme_colors');
 
+function cablecast_customizer_css() { ?>
 
-function cablecast_customizer_css() {
-    ?>
 <style type="text/css">
+    <?php // Set the chosen background image as background for page titles
+$background_image = get_theme_mod('page_title_background_image');
+$background_image_section = get_theme_mod('section_1_background_image');
+    // create css class with background image and some padding/text treatment
+    if ($background_image) {
+        echo '.page-title {
+                background-image: linear-gradient(to top, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.75)), url("' . esc_url($background_image) . '");
+                background-size: cover;
+                background-position: center;
+                padding: 50px 0;
+                text-shadow: 2px 2px 2px #000000;
+            }';
+    }
+    else {
+        echo '.page-title {
+                padding: 15px;
+            }';
+    } 
+    // Create CSS class with background image
+    if ($background_image_section) {
+        echo '.section-1-background {
+            background-image: url("' . esc_url($background_image_section) . '");
+            background-size: cover;
+            background-position: center;
+        }';
+    }?>
+
+    /* temporary bug fix for links having underlines */
+a {
+    text-decoration: none !important;
+}
+a:hover {
+    text-decoration: underline !important;
+}
+.btn a:hover, .channel-archive-item a:hover {
+    text-decoration: none !important;
+}
+/* end */
+
 .banner {
+    background-color: <?php echo get_theme_mod('banner_color', '#545C6E');
+    ?>;
+}
+body {
     background-color: <?php echo get_theme_mod('banner_color', '#545C6E');
     ?>;
 }
 
 #primary,
 .primary {
-    /* background-color: <?php echo get_theme_mod('main_background_color', '#E8E8F0');
-    ?>; */
+    background-color: <?php echo get_theme_mod('main_background_color', '#E8E8F0');
+    ?>;
 }
 
-.gradient {
-    background-image: linear-gradient(<?php echo get_theme_mod('gradient_color', '#576b80'); ?>, <?php echo get_theme_mod('background_color', '#ffffff'); ?>);
+section:nth-child(odd) {
+    background-color: <?php echo get_theme_mod('main_background_color', '#E8E8F0');
+    ?>;
+}
+
+.accent-color {
+    background-color: <?php echo get_theme_mod('accent_color', '#3192C8'); ?>;
+}
+.menu-header-nav-container .sub-menu {
+    background-color: <?php echo get_theme_mod('submenu_color', '#3192C8'); ?>;
+}
+.menu-header-nav-container .sub-menu a {
+    color: <?php echo get_theme_mod('submenu_text_color', '#FFFFFF'); ?>;
+}
+
+.title-text-color {
+    color: <?php echo get_theme_mod('title_text_color', '#FFFFFF'); ?>;
+}
+
+.heading-text-color, .rcp-table-wrapper h3, .rcp_form legend, .wp-block-heading {
+    color: <?php echo get_theme_mod('heading_text_color', '#2DB566'); ?>;
 }
 
 .primary-button {

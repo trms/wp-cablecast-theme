@@ -27,4 +27,4 @@
     </div><!-- .entry-content -->
 
 
-</article><!-- #post-${ID} -->
+</div><article><!-- #post-${ID} -->

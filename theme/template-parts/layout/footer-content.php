@@ -9,7 +9,7 @@
 
 ?>
 
-<footer class="bg-brand-secondary relative w-full  py-8 px-2">
+<footer class="banner relative w-full  py-8 px-2">
     <div id="bottombar-container"> <!-- site navigation -->
         <nav id=" site-navigation" aria-label="<?php esc_attr_e( 'Main Navigation', 'cablecast' ); ?>">
             <button class="hidden" aria-controls="primary-menu"
@@ -106,12 +106,31 @@
 
         <div class="text-white text-center mt-4">
             <?php
-                        // Output the footer widget area
-                        if ( is_active_sidebar( 'sidebar-1' ) ) {
-                            dynamic_sidebar( 'sidebar-1' );
-                        }
-                        ?>
+            // Output the footer social media widget area
+            if ( is_active_sidebar( 'sidebar-1' ) ) {
+                dynamic_sidebar( 'sidebar-1' );
+            }
+            ?>
         </div>
+
+        <?php
+            // Retrieve the Contact info settings
+            $contact_info = get_option('contact_info_settings');
+        ?>
+
+        <div class="footer-contact-info-container text-center text-white">
+        <?php
+            if ($contact_info['email']) {
+                echo '<div><a href="mailto:' . esc_html($contact_info['email']) . '" class="hover:underline" target="_blank">' . esc_html($contact_info['email']) . '</a>';
+            }
+            if ($contact_info['phonenumber']) {
+                echo ' | <a href="tel:' . esc_html($contact_info['phonenumber']) . '" class="hover:underline" target="_blank">' . esc_html($contact_info['phonenumber']) . '</a></div>';
+            }
+            if ($contact_info['address']) {
+                echo '<div class="pb-5"><a href="https://www.google.com/maps/search/?api=1&query=' . urlencode($contact_info['address']) . '" class="hover:underline" target="_blank">' . esc_html($contact_info['address']) . '</a></div>';
+            }?>
+        </div>
+
         <div class="footer-copyright"> Copyright &copy; <? the_date('Y') ?> Tightrope Media Systems</div>
     </div>
 

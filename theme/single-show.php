@@ -10,8 +10,8 @@
     <?php
  get_header();
  ?>
-    <section id="primary" class="content-area p-2">
-        <main id="main" class="site-main pb-8">
+<main id="main">
+    <article class="page-info-container single-show-page-container">
             <?php while (have_posts()) : the_post(); ?>
             <a href="/shows" class="!text-brand-accent hover:underline block mb-3">« Back to Shows</a>
             <article <?php post_class(); ?>>
@@ -52,7 +52,7 @@
                     }
                 }
 
-                the_title('<h2 class="text-3xl font-bold mt-8 mb-4">', '</h2>');
+                the_title('<h2 class="text-3xl font-bold mt-8 mb-4 heading-text-color">', '</h2>');
                 
                 echo '<div class="mb-4">' . get_post_meta($post_id, 'cablecast_show_comments', true) . '</div>';
 
@@ -101,10 +101,10 @@
                 
                 echo '</div>';
                 ?>
-            </article>
+            </div><article>
             <?php endwhile; ?>
-        </main><!-- #main -->
-    </section><!-- #primary -->
+    </div><article>
+</main>
 </div>
 <?php
  get_footer();

@@ -35,7 +35,7 @@ get_header();
         <main id="main" class="site-main">
             <div>
                 <div>
-                    <div class="login-container w-full sm:w-1/2 mx-auto my-8 p-8 border border-gray-400 primary">
+                    <div class="login-container mx-auto my-8 p-8 border border-gray-400">
                         <h2 class="text-center mb-4 text-2xl font-bold">LOGIN</h2>
                         <form name="loginform" id="loginform" action="" method="post">
                             <p class="login-username flex flex-col gap-y-2">
