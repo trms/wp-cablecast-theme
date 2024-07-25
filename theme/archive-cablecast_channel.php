@@ -15,7 +15,7 @@
                 <h3 class="channel-archive-titles pb-2 heading-text-color"><?php the_title(); ?></h3>
                 <?php the_content(); ?>
                 <div class="py-5">
-                  <a href="<?php echo $permalink; ?>watch" class="text-center grow rounded secondary-button px-4 py-2 mr-3 text-xs font-semibold text-white shadow-sm">Watch Channel</a>  <a href="<?php echo $permalink; ?>schedule" class="text-center grow rounded secondary-button px-4 py-2 text-xs font-semibold text-white shadow-sm">View Schedule</a>
+                  <a href="<?php echo $permalink; ?>watch" class="text-center rounded secondary-button px-4 py-2 mr-3 text-xs font-semibold text-white shadow-sm">Watch Channel</a>  <a href="<?php echo $permalink; ?>schedule" class="text-center rounded secondary-button px-4 py-2 text-xs font-semibold text-white shadow-sm">View Schedule</a>
                 </div>
               </div>
             </div>

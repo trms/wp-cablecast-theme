@@ -7,7 +7,7 @@
         </div>
     
     <div class="news-page-info-container">
-    <div><a href="/news" class="!text-brand-accent hover:underline pl-5">« Back to News</a></div>
+    <div><a href="/news" class="link-color hover:underline pl-5">« Back to News</a></div>
 
     <?php while (have_posts()) {
         the_post(); ?>

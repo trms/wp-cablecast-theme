@@ -18,7 +18,7 @@ $permalink = get_permalink(); // Retrieve post permalink?>
         <div class="schedule-page-info-container">
 
             <?php if ($channel_page == 'schedule') {
-        
+
         echo '<div class="schedule-page-nagivation"><a href="/channels" class="!text-brand-accent hover:underline">« Back to Channels</a></div>';
         // Display content added through WordPress editor
         if (have_posts()) {

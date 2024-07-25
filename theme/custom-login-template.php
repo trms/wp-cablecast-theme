@@ -65,7 +65,7 @@ get_header();
                             </p>
                             <div class="login-new-membership-container">
                                 <p class="pt-3">Not a member yet?</p>
-                                <a href="/register" class="!text-brand-accent hover:underline">Register your new membership</a>
+                                <a href="/register" class="link-color hover:underline">Register your new membership</a>
                             </div>
                         </form>
 

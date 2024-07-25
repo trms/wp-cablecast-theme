@@ -18,7 +18,7 @@ get_header();
                 <div class="about-feature-image"><?php echo the_post_thumbnail(); ?></div>
                 <div class="about-description">
                     <?php the_excerpt(); ?>
-                    <a href="/staff" class="!text-brand-accent hover:underline">Meet our staff »</a>
+                    <a href="/staff" class="link-color hover:underline">Meet our staff »</a>
                 </div>
             </div>
         </div>
@@ -35,16 +35,16 @@ get_header();
             $columns = [];
 
             if ($contact_info['email']) {
-                $columns[] = '<div class="contact-info-column"><span class="meta-title">Email:</span> <a href="mailto:' . esc_html($contact_info['email']) . '" class="!text-brand-accent hover:underline" target="_blank">' . esc_html($contact_info['email']) . '</a></div>';
+                $columns[] = '<div class="contact-info-column"><span class="meta-title">Email:</span> <a href="mailto:' . esc_html($contact_info['email']) . '" class="link-color hover:underline" target="_blank">' . esc_html($contact_info['email']) . '</a></div>';
             }
             if ($contact_info['address']) {
-                $columns[] = '<div class="contact-info-column"><span class="meta-title">Address:</span> <a href="https://www.google.com/maps/search/?api=1&query=' . urlencode($contact_info['address']) . '" class="!text-brand-accent hover:underline" target="_blank">' . esc_html($contact_info['address']) . '</a></div>';
+                $columns[] = '<div class="contact-info-column"><span class="meta-title">Address:</span> <a href="https://www.google.com/maps/search/?api=1&query=' . urlencode($contact_info['address']) . '" class="link-color hover:underline" target="_blank">' . esc_html($contact_info['address']) . '</a></div>';
             }
             if ($contact_info['phonenumber']) {
-                $columns[] = '<div class="contact-info-column"><span class="meta-title">Phone Number:</span> <a href="tel:' . esc_html($contact_info['phonenumber']) . '" class="!text-brand-accent hover:underline" target="_blank">' . esc_html($contact_info['phonenumber']) . '</a></div>';
+                $columns[] = '<div class="contact-info-column"><span class="meta-title">Phone Number:</span> <a href="tel:' . esc_html($contact_info['phonenumber']) . '" class="link-color hover:underline" target="_blank">' . esc_html($contact_info['phonenumber']) . '</a></div>';
             }
             if ($contact_info['fax']) {
-                $columns[] = '<div class="contact-info-column"><span class="meta-title">Fax:</span> <a href="tel:' . esc_html($contact_info['fax']) . '" class="!text-brand-accent hover:underline" target="_blank">' . esc_html($contact_info['fax']) . '</a></div>';
+                $columns[] = '<div class="contact-info-column"><span class="meta-title">Fax:</span> <a href="tel:' . esc_html($contact_info['fax']) . '" class="link-color hover:underline" target="_blank">' . esc_html($contact_info['fax']) . '</a></div>';
             }
             if ($contact_info['hours']) {
                 $hours_with_line_breaks = nl2br(esc_html($contact_info['hours']));

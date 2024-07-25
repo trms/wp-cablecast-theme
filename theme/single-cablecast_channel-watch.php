@@ -14,8 +14,8 @@ $channel_page = get_query_var('channel_page'); ?>
 
         $permalink = get_permalink(); // Retrieve post permalink
         
-        echo '<div class="watch-page-nagivation pb-3"><a href="/channels" class="!text-brand-accent hover:underline">« Back to Channels</a>';
-
+        echo '<div class="watch-page-nagivation pb-3"><a href="/channels" class="link-color hover:underline">« Back to Channels</a>';
+        echo '<a href="' . $permalink . 'schedule" class="link-color hover:underline">View Schedule »</a></div>';
         // Display content added through WordPress editor
         if (have_posts()) {
             while (have_posts()) { ?>

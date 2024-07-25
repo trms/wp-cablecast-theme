@@ -17,7 +17,7 @@
         the_post(); ?>
 
         <div class="staff-single-page-content prose">
-         <a href="/staff" class="!text-brand-accent hover:underline">« Back to Staff</a>   
+         <a href="/staff" class="link-color hover:underline">« Back to Staff</a>   
             <div class="staff-info-container">
                 <div class="staff-thumbnail-single"><?php echo the_post_thumbnail('staffPortrait'); ?></div> 
                 
@@ -25,11 +25,11 @@
                 <div class="clear-float"></div>
                 <div class="staff-contact-info pb-10">
                     <?php if ($phone) : ?>
-                        <div><strong>Phone:</strong> <a href="tel:<?php echo esc_html($phone); ?>" class="!text-brand-accent hover:underline"><?php echo esc_html($phone); ?></a></div>
+                        <div><strong>Phone:</strong> <a href="tel:<?php echo esc_html($phone); ?>" class="link-color hover:underline"><?php echo esc_html($phone); ?></a></div>
                     <?php endif; ?>
 
                     <?php if ($email) : ?>
-                        <div><strong>Email:</strong> <a href="mailto:<?php echo esc_attr($email); ?>" class="!text-brand-accent hover:underline"><?php echo esc_html($email); ?></a></div>
+                        <div><strong>Email:</strong> <a href="mailto:<?php echo esc_attr($email); ?>" class="link-color hover:underline"><?php echo esc_html($email); ?></a></div>
                     <?php endif; ?>
                 </div>
             </div>

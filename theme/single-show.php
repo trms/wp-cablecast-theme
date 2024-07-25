@@ -4,109 +4,100 @@
  *
  * @package cablecast
  */
-
- ?>
+?>
 <div>
-    <?php
- get_header();
- ?>
-<main id="main">
-    <article class="page-info-container single-show-page-container">
+    <?php get_header(); ?>
+    <main id="main">
+        <article class="page-info-container single-show-page-container">
             <?php while (have_posts()) : the_post(); ?>
-            <a href="/shows" class="!text-brand-accent hover:underline block mb-3">« Back to Shows</a>
-            <article <?php post_class(); ?>>
-                <?php
-                $post_id = get_the_ID();
+            <a href="/shows" class="link-color hover:underline block mb-3">« Back to Shows</a>
+            <div class="flex flex-row gap-4">
 
-                // Check if the rcp_user_can_access function exists and run it if so
-                if (function_exists('rcp_user_can_access')) {
-                    $can_access = rcp_user_can_access(get_current_user_id(), $post_id);
-                } else {
-                    // If the function doesn't exist, default to true (access granted)
-                    $can_access = true;
-                }
+                <div class="agenda-left hidden md:block grow">
+                <?php get_template_part('template-parts/content/show-agenda'); ?>
+                </div>
 
-                if ($can_access) {
-                    $video_iframe = get_post_meta($post_id, 'cablecast_vod_embed', true);
-                    if ($video_iframe) {
-                        echo '<div class="embed-responsive">' . $video_iframe . '</div>';
-                    }
-                } else {
-                    $thumbnail_url = get_the_post_thumbnail_url($post_id, 'full');
-                    if ($thumbnail_url) {
-                        echo '<div class="relative">';
-                        echo '<img src="' . esc_url($thumbnail_url) . '" alt="' . esc_attr(get_the_title()) . '" class="attachment-post-thumbnail size-post-thumbnail wp-post-image">';
-                        // Overlay for restricted content
-                        echo '
-                            <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white text-center py-10">
-                                <div class="flex justify-center flex-col gap-y-2">
-                                    <span>This Content requires a membership to view.</span>
-                                    <span>Login or register below.</span>
-                                    <div class="mt-4">
-                                        <a href="/login" class="btn secondary-button hover:shadow text-white  py-2 px-4 ">Login</a>
-                                        <a href="/register" class="btn secondary-button hover:shadow text-white  py-2 px-4 ">Register</a>
-                                    </div>
-                                </div>  
-                            </div>';
-                        echo '</div>';
-                    }
-                }
+                <div class="video-right max-w-full md:max-w-lg">
+                    <div <?php post_class(); ?>>
+                        <?php
+                        get_template_part('template-parts/content/show-video');
 
-                the_title('<h2 class="text-3xl font-bold mt-8 mb-4 heading-text-color">', '</h2>');
+                        the_title('<h2 class="text-3xl font-bold mt-8 mb-4 heading-text-color">', '</h2>'); ?>
+                        
+                        <!-- Tabs start -->
+                        <div class="show-tabs">
+                            <!-- Code to turn tabs into a drop down
+                            <div class="sm:hidden">
+                                <label for="tabs" class="sr-only">Select a tab</label>
+                            
+                                <select id="tabs" name="tabs" class="block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" onchange="showTabContent(this.value)">
+                                    <option value="details">Details</option>
+                                    <option value="chapters">Chapters</option>
+                                    <option value="agenda">Agenda</option>
+                                </select>
+                            </div> -->
+                            <div class="block"> <!-- Use if using dropdown tabs for mobile: <div class="hidden sm:block"> -->
+                                <div class="border-b border-gray-200">
+                                    <nav class="-mb-px flex" aria-label="Tabs">
+                                        <!-- Current: "border-indigo-500 text-indigo-600", Default: "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700" -->
+                                        <a href="javascript:void(0);" id="tab-details" class="grow text-center tab-link whitespace-nowrap border-b-2 border-transparent px-1 py-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700" onclick="showTabContent('details')">Details</a>
+                                        <a href="javascript:void(0);" id="tab-chapters" class="grow text-center tab-link whitespace-nowrap border-b-2 border-transparent px-1 py-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700" onclick="showTabContent('chapters')">Chapters</a>
+                                        <a href="javascript:void(0);" id="tab-agenda" class="grow text-center tab-link whitespace-nowrap border-b-2 border-transparent px-1 py-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700 block md:hidden" onclick="showTabContent('agenda')">Agenda</a>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tab content start -->
+                        <div id="tab-content-details" class="tab-content">
+                            <?php get_template_part('template-parts/content/show-detail'); ?>
+                        </div>
+                        <div id="tab-content-chapters" class="tab-content hidden">
+                            <?php get_template_part('template-parts/content/show-chapters'); ?>
+                        </div>
+                        <div class="block md:hidden">
+                        <div id="tab-content-agenda" class="tab-content hidden">
+                            <?php get_template_part('template-parts/content/show-agenda'); ?>
+                        </div>
+                        </div>
+                        <!-- Tab content end -->
+                    </div>
+                </div>
                 
-                echo '<div class="mb-4">' . get_post_meta($post_id, 'cablecast_show_comments', true) . '</div>';
-
-                // Flex container for custom fields in two columns
-                echo '<div class="sm:flex justify-between">';
-                $fields = [
-                    'cablecast_producer_name' => 'Producer',
-                    'cablecast_category_name' => 'Category',
-                    'cablecast_project_name' => 'Project'
-                ];
-                
-                // Retrieve and format the TRT field
-                $trt = get_post_meta($post_id, 'cablecast_show_trt', true);
-                $trtFormatted = $trt ? gmdate("H:i:s", $trt) : '';
-
-                // If TRT is available, add to fields array at the desired position
-                if ($trtFormatted) {
-                    $fields = ['cablecast_show_trt' => 'Length'] + $fields;
-                }
-
-                $col1 = array_slice($fields, 0, 2, true);  // First half of fields
-                $col2 = array_slice($fields, 2, null, true); // Second half of fields
-
-                // Column 1
-                echo '<div class="flex-1 mr-4">';
-                foreach ($col1 as $key => $label) {
-                    $value = get_post_meta($post_id, $key, true);
-                    if ($key == 'cablecast_show_trt') {
-                        $value = $trtFormatted; // Use formatted time for TRT
-                    }
-                    if ($value) {
-                        echo '<div class="mb-2"><span class="font-bold">' . $label . ': </span>' . $value . '</div>';
-                    }
-                }
-                echo '</div>';
-
-                // Column 2
-                echo '<div class="flex-1">';
-                foreach ($col2 as $key => $label) {
-                    $value = get_post_meta($post_id, $key, true);
-                    if ($value) {
-                        echo '<div class="mb-2"><span class="font-bold">' . $label . ': </span>' . $value . '</div>';
-                    }
-                }
-                echo '</div>';
-                
-                echo '</div>';
-                ?>
-            </div><article>
+            </div>
             <?php endwhile; ?>
-    </div><article>
-</main>
+        </article>
+    </main>
+    <?php get_footer(); ?>
 </div>
-<?php
- get_footer();
- ?>
-</div>
+
+<!-- javascript for the tabs -->
+<script>
+function showTabContent(tab) {
+    // Hide all tab content
+    var tabContents = document.querySelectorAll('.tab-content');
+    tabContents.forEach(function(content) {
+        content.classList.add('hidden');
+    });
+
+    // Remove active class from all tabs
+    var tabLinks = document.querySelectorAll('.tab-link');
+    tabLinks.forEach(function(link) {
+        link.classList.remove('tab-border-color', 'link-color');
+        link.classList.add('text-gray-500', 'hover:border-gray-300', 'hover:text-gray-700');
+    });
+
+    // Show the selected tab content
+    document.getElementById('tab-content-' + tab).classList.remove('hidden');
+
+    // Add active class to the selected tab
+    document.getElementById('tab-' + tab).classList.add('tab-border-color', 'link-color');
+    document.getElementById('tab-' + tab).classList.remove('text-gray-500', 'hover:border-gray-300', 'hover:text-gray-700');
+}
+
+// Initialize the first tab as active
+document.addEventListener('DOMContentLoaded', function() {
+    showTabContent('details');
+});
+</script>
+

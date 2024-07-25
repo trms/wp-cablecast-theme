@@ -25,7 +25,7 @@
                         } else {
                           echo wp_trim_words(get_the_content(), 18);
                         }  ?>
-                  <p><a class="news-readmore-btn !text-brand-accent hover:underline pt-3 block" href="<?php the_permalink(); ?>">Continue reading &raquo;</a></p>
+                  <p><a class="news-readmore-btn link-color hover:underline pt-3 block" href="<?php the_permalink(); ?>">Continue reading &raquo;</a></p>
                 </div>
               </div>
 

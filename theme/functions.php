@@ -318,7 +318,7 @@ function display_shows_by_category_shortcode($atts) {
 
         // Only show link if not on a page with "shows" slug
         if (!$hide_view_all_link && !empty($view_all_link)) {
-            $output .= '<a class="!text-brand-accent no-underline hover:underline mt-5" href="' . $view_all_link . '">View All</a>';
+            $output .= '<a class="link-color no-underline hover:underline mt-5" href="' . $view_all_link . '">View All</a>';
         }
         
         $output .= '</div>';
@@ -513,6 +513,7 @@ function custom_theme_colors( $wp_customize ) {
         'submenu_text_color'         => array(__('Sub Menu Text Color', 'cablecast'), '#FFFFFF'),
         'title_text_color'         => array(__('Page Title Text Color', 'cablecast'), '#FFFFFF'),
         'heading_text_color'         => array(__('Section Heading Text Color', 'cablecast'), '#2DB566'),
+        'link_color'         => array(__('Link Color', 'cablecast'), '#3192C8'),
         'primary_button_color'   => array(__('Primary Button Color', 'cablecast'), '#2DB566'),
         'primary_button_color_hover'   => array(__('Primary Button Hover Color', 'cablecast'), '#199B4D'),
         'secondary_button_color' => array(__('Secondary Button Color', 'cablecast'), '#3192C8'),
@@ -618,6 +619,14 @@ section:nth-child(odd) {
 
 .title-text-color {
     color: <?php echo get_theme_mod('title_text_color', '#FFFFFF'); ?>;
+}
+
+.link-color {
+    color: <?php echo get_theme_mod('link_color', '#3192c8'); ?>;
+}
+
+.tab-border-color {
+    border-color: <?php echo get_theme_mod('link_color', '#3192c8'); ?>;
 }
 
 .heading-text-color, .rcp-table-wrapper h3, .rcp_form legend, .wp-block-heading {

@@ -35,11 +35,11 @@
             <?php endif; ?>
             
               <?php if ($phone) : ?>
-                  <div><a href="tel:<?php echo esc_html($phone); ?>" class="!text-brand-accent hover:underline"><?php echo esc_html($phone); ?></a></div>
+                  <div><a href="tel:<?php echo esc_html($phone); ?>" class="link-color hover:underline"><?php echo esc_html($phone); ?></a></div>
               <?php endif; ?>
 
               <?php if ($email) : ?>
-                  <div><a href="mailto:<?php echo esc_attr($email); ?>" class="!text-brand-accent hover:underline"><?php echo esc_html($email); ?></a></div>
+                  <div><a href="mailto:<?php echo esc_attr($email); ?>" class="link-color hover:underline"><?php echo esc_html($email); ?></a></div>
               <?php endif; ?>
 
         </div>
