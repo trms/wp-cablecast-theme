@@ -26,48 +26,61 @@ if ($agendaDownload) {
 } else {
     echo '<div class="sm:flex justify-between">';
 }
-    $fields = [
-        'cablecast_producer_name' => 'Producer',
-        'cablecast_category_name' => 'Category',
-        'cablecast_project_name' => 'Project'
-    ];
-    
-    // Retrieve and format the TRT field
-    $trt = get_post_meta($post_id, 'cablecast_show_trt', true);
-    $trtFormatted = $trt ? gmdate("H:i:s", $trt) : '';
+$fields = [
+    'cablecast_producer_name' => 'Producer',
+    'cablecast_category_name' => 'Category',
+    'cablecast_project_name' => 'Project',
+];
 
-    // If TRT is available, add to fields array at the desired position
-    if ($trtFormatted) {
-        $fields = ['cablecast_show_trt' => 'Length'] + $fields;
+// Retrieve and format the TRT field
+$trt = get_post_meta($post_id, 'cablecast_show_trt', true);
+$trtFormatted = $trt ? gmdate("H:i:s", $trt) : '';
+
+// Get the event date from post meta
+$eventDate = get_post_meta($post_id, 'cablecast_show_event_date', true);
+
+// Parse the date string using DateTime class
+$date = new DateTime($eventDate);
+
+// Format the date to your desired format'
+$formattedDate = $date->format('m-d-Y');
+
+
+// If TRT is available, add to fields array at the desired position
+if ($trtFormatted) {
+    $fields = ['cablecast_show_trt' => 'Length'] + $fields;
+}
+
+$col1 = array_slice($fields, 0, 2, true);  // First half of fields
+$col2 = array_slice($fields, 2, null, true); // Second half of fields
+
+// Column 1
+echo '<div class="flex-1 mr-4">';
+foreach ($col1 as $key => $label) {
+    $value = get_post_meta($post_id, $key, true);
+    if ($key == 'cablecast_show_trt') {
+        $value = $trtFormatted; // Use formatted time for TRT
     }
-
-    $col1 = array_slice($fields, 0, 2, true);  // First half of fields
-    $col2 = array_slice($fields, 2, null, true); // Second half of fields
-
-    // Column 1
-    echo '<div class="flex-1 mr-4">';
-    foreach ($col1 as $key => $label) {
-        $value = get_post_meta($post_id, $key, true);
-        if ($key == 'cablecast_show_trt') {
-            $value = $trtFormatted; // Use formatted time for TRT
-        }
-        if ($value) {
-            echo '<div class="mb-2"><span class="font-bold pr-2">' . $label . ': </span>' . $value . '</div>';
-        }
+    if ($value) {
+        echo '<div class="mb-2"><span class="font-bold pr-2">' . $label . ': </span>' . $value . '</div>';
     }
-    echo '</div>';
+}
+if ($eventDate) {
+    echo '<div class="mb-2"><span class="font-bold pr-2">Event Date: </span>' . $formattedDate . '</div>';
+}
+echo '</div>';
 
-    // Column 2
-    echo '<div class="flex-1">';
-    foreach ($col2 as $key => $label) {
-        $value = get_post_meta($post_id, $key, true);
-        if ($value) {
-            echo '<div class="mb-2"><span class="font-bold pr-2">' . $label . ': </span>' . $value . '</div>';
-        }
+// Column 2
+echo '<div class="flex-1">';
+foreach ($col2 as $key => $label) {
+    $value = get_post_meta($post_id, $key, true);
+    if ($value) {
+        echo '<div class="mb-2"><span class="font-bold pr-2">' . $label . ': </span>' . $value . '</div>';
     }
-    echo '</div>';
-    
-    echo '</div>';
+}
+echo '</div>';
+
+echo '</div>';
 
 echo '</div>';
 // end flex container

@@ -376,6 +376,128 @@ function display_shows_by_category_shortcode($atts) {
 // Register the shortcode
 add_shortcode('display_shows_by_category', 'display_shows_by_category_shortcode');
 
+// Create shortcode to list shows in a table
+function list_shows_by_category_shortcode($atts) {
+    // Extract attributes
+    $atts = shortcode_atts(array(
+        'category' => '', // Default category is empty
+        'number'   => null, // Default number of posts is null
+    ), $atts);
+
+    // Get attributes from shortcode
+    $category = sanitize_text_field($atts['category']);
+    $number   = intval($atts['number']); // Ensure number is an integer
+
+    // Initialize output variable
+    $output = '';
+
+    // Check if the URL contains the "show-table-view" slug
+    $current_url = $_SERVER['REQUEST_URI'];
+    $hide_view_all_link = strpos($current_url, 'show-table-view') !== false;
+
+    // Construct the "View All" link URL
+    $view_all_link = $hide_view_all_link ? '' : esc_url(add_query_arg('category', $category, get_post_type_archive_link('show')));
+
+    // Query shows based on category and number of posts
+    $args = array(
+        'post_type' => 'show', // Custom post type name
+        'tax_query' => array(
+            array(
+                'taxonomy' => 'category', // Taxonomy name
+                'field'    => 'name',     // Query by category name
+                'terms'    => $category,  // Category name from shortcode attribute
+            ),
+        ),
+    );
+
+    // Check if number attribute is provided
+    if ($number !== null) {
+        $args['posts_per_page'] = $number; // Set number of posts to retrieve
+    }
+
+    $query = new WP_Query($args);
+    if ($query->have_posts()) {
+
+        $output .= '<div class="show-table-list">';
+            $output .= '<div class="flex justify-between items-center">';
+                $output .= '<h3 class="uppercase text-2xl font-bold mb-4 heading-text-color">' . $category . '</h3>';
+
+                // Only show link if not on a page with "show-table-view" slug
+                if (!$hide_view_all_link && !empty($view_all_link)) {
+                    $output .= '<a class="link-color no-underline hover:underline mt-5" href="' . $view_all_link . '">View All</a>';
+                }
+            $output .= '</div>';
+
+            // start table
+            $output .= '<table class="show-table-container w-full">';
+
+            // table headers
+            $output .= '<tr class="border-b text-left bold">';
+            $output .= '<th class="w-2/12"></th>';
+            $output .= '<th class="w-6/12">Title</th>';
+            $output .= '<th class="w-2/12">Date</th>';
+            $output .= '<th class="w-2/12">Length</th>';
+            $output .= '</tr>';
+        
+            while ($query->have_posts()) {
+                $query->the_post();
+                $post_id = get_the_ID();
+                    // Check if the rcp_user_can_access function exists and run it if so
+                    if (function_exists('rcp_user_can_access')) {
+                        $can_access = rcp_user_can_access(get_current_user_id(), $post_id);
+                    } else {
+                        // If the function doesn't exist, default to true (access granted)
+                        $can_access = true;
+                    }
+
+                $output .= '<tr class="border-b">';
+                // View button
+                $output .= '<td class="py-2 text-white"><a href="' . esc_url(get_permalink()) . '" class="text-center rounded secondary-button px-4 py-2 mr-3 text-xs font-semibold text-white shadow-sm max-w-32 block">Watch Show</a></td>';
+            
+                // Show title
+                $output .= '<td><span class="show-title text-wrap">' . esc_html(get_the_title()) . '</span></td>';
+
+                // Show Date
+                // Get the event date from post meta
+                $eventDate = get_post_meta($post_id, 'cablecast_show_event_date', true);
+
+                // Parse the date string using DateTime class
+                $date = new DateTime($eventDate);
+
+                // Format the date to your desired format
+                $formattedDate = $date->format('m-d-Y');
+                $output .= '<td>' . $formattedDate . '</td>';
+
+                // Retrieve and format the TRT field
+                $trt = get_post_meta($post_id, 'cablecast_show_trt', true);
+                $trtFormatted = $trt ? gmdate("H:i:s", $trt) : '';
+
+                // Check if TRT is available and build output accordingly
+                if ($trtFormatted) {
+                    $output .= '<td>' . $trtFormatted . '</td>';
+                } else {
+                    $output .= '<td class="italic">---</td>';
+                }
+
+                $output .= '</tr>';
+            
+            }
+            $output .= '</table>';
+        
+            // Reset post data
+            wp_reset_postdata();
+    
+
+        $output .= '</div>'; // Close the show-list container
+    }
+
+    return $output;
+}
+
+// Register the shortcode
+add_shortcode('list_shows_by_category', 'list_shows_by_category_shortcode');
+
+// Controls Pagination
 function load_categories_callback() {
     // Get the page number from the AJAX request
     $paged = isset($_POST['page']) ? intval($_POST['page']) : 1;
@@ -396,12 +518,14 @@ function load_categories_callback() {
     ob_start();
     echo '<div id="categories">';
     // Loop through each category and display shortcode for each
-    for ($i = $offset; $i < min($offset + $posts_per_page, $total_categories); $i++) {
+  
+        for ($i = $offset; $i < min($offset + $posts_per_page, $total_categories); $i++) {
         // Construct the shortcode with the dynamic category value
         $shortcode = '[display_shows_by_category category="' . $categories[$i]->name . '"]';
         // Output the shortcode
         echo do_shortcode($shortcode);
-    }
+        }
+   
     echo '</div>';
     $categories_html = ob_get_clean();
 
@@ -432,8 +556,6 @@ function load_categories_callback() {
 }
 add_action('wp_ajax_load_categories', 'load_categories_callback');
 add_action('wp_ajax_nopriv_load_categories', 'load_categories_callback');
-
-
 
 
 function hide_admin_bar_from_non_admins() {
@@ -622,7 +744,7 @@ section:nth-child(odd) {
 }
 
 .link-color {
-    color: <?php echo get_theme_mod('link_color', '#3192c8'); ?>;
+    color: <?php echo get_theme_mod('link_color', '#3192c8'); ?> !important;
 }
 
 .tab-border-color {

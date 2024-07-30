@@ -819,3 +819,15 @@ section {
 .show-chapters-container {
 	grid-template-columns: auto 75%;
 }
+
+/* Custom CSS for the show table view page */
+.show-table-container tr:nth-child(even) {
+	background-color: #f9f9f9;
+}
+.show-table-container td, .show-table-container th {
+	vertical-align: middle;
+}
+.show-table-list {
+	border-bottom: 1px solid #bbb;
+	padding: 30px 0;
+}
