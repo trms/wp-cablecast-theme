@@ -90,6 +90,17 @@ form#loginform {
 	border-radius: 10px;
 }
 
+.login-new-membership-container {
+	width: 100%;
+	text-align: center;
+	border-top: 1px solid #bbb;
+	margin-top: 30px;
+	padding-top: 5px;
+}
+.login-submit input {
+	width: 100%;
+}
+
 /* CONTENT RESTRICTION  */
 .content-restricted {
 	@apply h-screen;
@@ -164,6 +175,15 @@ form#loginform {
 	gap: 50px;
 	align-items: center;
   }
+
+  @media only screen and (max-width: 768px) {
+    .about-info-container {
+		display: block;
+	  }
+	  .about-feature-image {
+		margin-bottom: 20px;
+	  }
+  }
   
   .about-description {
 	flex: 60%;
@@ -183,28 +203,50 @@ form#loginform {
 	flex-direction: column;
 	
   }
-
-  .contact-info-container .post-meta {
-	display: grid;
-	grid-template-columns: auto auto auto;
-
-	gap: 50px;
+ /* Custom Css for the About us Page */ 
+  .app-information {
+	border-top: 1px solid #bbb;
+  }
+  .app-icons-container {
+	display: flex;
+	justify-content: center;
 	align-items: center;
+	gap: 30px;
+  }
+  .contact-info-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-auto-rows: 1fr;  /* Make all rows the same height */
+    gap: 50px;
+    align-items: stretch; /* Ensure all items stretch to fill the height */
+}
+
+  @media only screen and (max-width: 768px) {
+	.app-icons-container {
+		flex-direction: column;
+	}
+	.contact-info-container {
+		display: block;
+	}
+	.contact-info-container div {
+		margin-bottom: 20px;
+	}
   }
   
-  .contact-info-title {
+  .contact-info-title, .app-info-title {
 	font-size: 1.5rem;
 	font-weight: bold;
 	text-align: center;
 	margin: 50px 0;
+	text-transform: uppercase;
   }
   
-  .contact-info-container .post-meta-key {
+  .contact-info-container .meta-title {
 	font-weight: bold;
 	display: block;
   }
   
-  .contact-info-container .post-meta li {
+  .contact-info-container div {
 	flex-basis: 20%;
 	flex-grow: 1;
 	background-color: #ffffff;
@@ -222,6 +264,7 @@ form#loginform {
 
   #content {
 	max-width: 1200px !important;
+	padding: 0 10px;
   }
 
   .footer-copyright {
@@ -282,7 +325,15 @@ form#loginform {
 
   .show-container img {
 	border: 1px solid #bbb;
+	max-height: 160px;
+	overflow: hidden;
   }
+
+  @media screen and (max-width: 900px) {
+    .show-container img {
+		max-height: 100%;
+	  }
+}
 
   .show-title {
 	white-space: nowrap;
@@ -324,37 +375,74 @@ form#loginform {
 	text-transform: uppercase;
   }
 
-  .channel-single-page-content table {
-	max-width: 800px;
+  /* Custom CSS for the Watch page */
+
+  .wrap {
+	position: relative;
+	width: 100%;
+	overflow: hidden;
+	padding-top: 56.25%; /* 16:9 Aspect Ratio */
+  }
+  
+  .trms-player {
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	width: 100%;
+	height: 100%;
+	border: none;
   }
 
-  .channel-single-page-content th {
-	text-align: left;
+  .watch-content-container h3, .watch-content-container .schedule-container {
+	display: none;
   }
 
-  .channel-single-page-title {
-	text-transform: uppercase;
-	margin-top: 20px;
-	font-size: 1.875rem;
+  /* Custom CSS for the Schedule Page */
+
+  .schedule-content-container h3{
+	font-size: 1.5rem;
 	font-weight: bold;
   }
 
-  .schedule-time {
-	min-width: 100px;
+  .schedule-content-container table {
+	width: 100%;
   }
 
-  .schedule-title-container {
+  .schedule-content-container th {
+	text-align: left;
+	background-color: #fff;
+  }
+  .schedule-content-container tr {
+	border-bottom: 1px solid #bbb;
+  }
+  .schedule-content-container tr:nth-child(odd) {
+	background-color: #f9f9f9;
+}
+  .schedule-content-container td, .schedule-content-container th {
+	padding: 7px 0;
+  }
+  .schedule-content-container .wrap {
+	display: none;
+  }
+#schedule_date {
+	border: 1px solid #bbb;
+	padding: 0 5px;
+	margin: 0 5px;
+}
+  .schedule-page-nagivation, .watch-page-nagivation {
 	display: flex;
 	justify-content: space-between;
-	align-items: center;
-	max-width: 800px;
-	margin-top: 30px;
   }
 
-  .schedule-title-container h3 {
-	margin-top: 0;
-	margin-bottom: 0;
-	text-transform: uppercase;
+  .schedule-date-navigation {
+	display: flex;
+	justify-content: space-between;
+	margin: 3px 0;
+  }
+  .schedule-time {
+	min-width: 100px;
   }
 
   /* Custom CSS for Edit Profile Page */
@@ -398,3 +486,54 @@ form#loginform {
   .rcp-table th {
 	padding-top: 5px;
   }
+
+  @media screen and (max-width: 900px) {
+    .rcp-table#rcp-account-overview thead th, .rcp-table#rcp-payment-history thead th {
+        display: table-cell !important;
+    }
+}
+
+  /* Custom CSS for Registration page */
+ .rcp_header {
+	text-transform: uppercase;
+	font-size: 1.5rem;
+	font-weight: bold;
+	padding-bottom: 0;
+	margin-bottom: 0;
+ }
+  .rcp_user_fieldset input {
+	border: 1px solid #bbb;
+	border-radius: 0 !important;
+	padding-block: 4px 8px !important;
+  }
+  .membership-amount {
+	font-size: 1.25rem;
+	text-transform: uppercase;
+  }
+  .rcp_form fieldset.rcp_subscription_fieldset {
+	margin: 10px 0 0 0;
+}
+  .rcp_registration_total_details {
+	margin-top: 0;
+  }
+
+  #rcp_subscription_levels, .rcp_form li.rcp_subscription_level {
+	margin-bottom: 0;
+  }
+
+  /* Custom CSS for the Restricted content message */
+
+  .restricted-content-message {
+	width: 100%;
+	border: 1px solid #bbb;
+	padding: 10px;
+	border-radius: 10px;
+	text-align: center;
+	background-color: #f9f9f9;
+  }
+
+/* Custom CSS for Footer Social media */
+
+.footer-social-media-container img {
+	max-width: 30px ;
+}

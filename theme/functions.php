@@ -358,10 +358,10 @@ function display_shows_by_category_shortcode($atts) {
     
         $output .= '</div>'; // Close the grid container
         $output .= '</div>'; // Close the show-list container
-    } else {
+    } /* else {
         // No shows found
         $output .= '<p class="mt-4">No shows found in the ' . $category . ' category.</p>';
-    }
+    } */
 
     return $output;
 }
@@ -440,9 +440,9 @@ add_action('after_setup_theme', 'hide_admin_bar_from_non_admins');
 function add_login_logout_link($items, $args) {
     if ($args->theme_location == 'menu-1') {
         if (is_user_logged_in()) {
-            $link = '<li class="menu-item btn primary-button"><a href="' . esc_url(site_url('/register/your-membership/')) . '" class="button-style">My Membership</a></li>';
+            $link = '<li class="menu-item btn primary-button rounded shadow-sm"><a href="' . esc_url(site_url('/register/your-membership/')) . '">My Membership</a></li>';
         } else {
-            $link = '<li class="menu-item btn primary-button"><a href="' . esc_url(site_url('/login')) . '" class="button-style">Members Sign In</a></li>';
+            $link = '<li class="menu-item btn primary-button rounded shadow-sm"><a href="' . esc_url(site_url('/login')) . '">Members Sign In</a></li>';
         }
         $items .= $link;
     }
@@ -477,8 +477,11 @@ function custom_theme_colors( $wp_customize ) {
         'main_background_color'       => array(__('Background Color', 'cablecast'), '#E8E8F0'),
         'gradient_color'         => array(__('Gradient Color', 'cablecast'), '#576b80'),
         'primary_button_color'   => array(__('Primary Button Color', 'cablecast'), '#2DB566'),
+        'primary_button_color_hover'   => array(__('Primary Button Hover Color', 'cablecast'), '#199B4D'),
         'secondary_button_color' => array(__('Secondary Button Color', 'cablecast'), '#3192C8'),
+        'secondary_button_color_hover' => array(__('Secondary Button Hover Color', 'cablecast'), '#007FB7'),
         'body_button_color'      => array(__('Body Button Color', 'cablecast'), '#3192C8'),
+        'body_button_color_hover'      => array(__('Body Button Hover Color', 'cablecast'), '#007FB7'),
     );
 
     foreach ($colors as $id => $value) {
@@ -527,14 +530,27 @@ function cablecast_customizer_css() {
     background-color: <?php echo get_theme_mod('primary_button_color', '#2DB566');
     ?>;
 }
+.primary-button:hover {
+    background-color: <?php echo get_theme_mod('primary_button_color_hover', '#199B4D');
+    ?>;
+}
 
 .secondary-button {
     background-color: <?php echo get_theme_mod('secondary_button_color', '#3192C8');
     ?>;
 }
 
+.secondary-button:hover {
+    background-color: <?php echo get_theme_mod('secondary_button_color_hover', '#007FB7');
+    ?>;
+}
+
 .body-button {
     background-color: <?php echo get_theme_mod('body_button_color', '#3192C8');
+    ?>;
+}
+.body-button:hover {
+    background-color: <?php echo get_theme_mod('body_button_color_hover', '#007FB7');
     ?>;
 }
 </style>
@@ -588,3 +604,6 @@ function add_channel_query_vars($query_vars) {
     return $query_vars;
 }
 add_filter('query_vars', 'add_channel_query_vars');
+
+add_action('wp_ajax_nopriv_fetch_schedule', 'cablecast_content_display');
+add_action('wp_ajax_fetch_schedule', 'cablecast_content_display');

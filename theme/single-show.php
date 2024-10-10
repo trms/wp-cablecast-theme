@@ -13,10 +13,11 @@
     <section id="primary" class="content-area p-2">
         <main id="main" class="site-main pb-8">
             <?php while (have_posts()) : the_post(); ?>
+            <a href="/shows" class="!text-brand-accent hover:underline block mb-3">« Back to Shows</a>
             <article <?php post_class(); ?>>
                 <?php
                 $post_id = get_the_ID();
-                
+
                 // Check if the rcp_user_can_access function exists and run it if so
                 if (function_exists('rcp_user_can_access')) {
                     $can_access = rcp_user_can_access(get_current_user_id(), $post_id);
