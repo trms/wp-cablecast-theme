@@ -16,8 +16,8 @@
     <?php
 get_header();
 ?>
-    <section id="primary">
-        <main id="main">
+<main id="main">
+<article><div class="page-info-container">
 
             <?php
 		if ( have_posts() ) {
@@ -47,8 +47,8 @@ get_header();
 		}
 		?>
 
-        </main><!-- #main -->
-    </section><!-- #primary -->
+	</div><article>
+	</main>
 </div>
 <?php
 get_footer();

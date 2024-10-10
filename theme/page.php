@@ -16,9 +16,12 @@
 get_header();
 ?>
 
-    <section id="primary" class="p-2">
-        <main id="main">
-		<h2 class="page-title text-center"><?php single_post_title(); ?></h2>
+<main id="main">
+<article>
+	<h2 class="page-title accent-color title-text-color text-center"><?php single_post_title(); ?></h2>
+	
+	<div class="page-info-container">
+		
             <?php
 
 			/* Start the Loop */
@@ -35,8 +38,8 @@ get_header();
 			endwhile; // End of the loop.
 			?>
 
-        </main><!-- #main -->
-    </section><!-- #primary -->
+		</div><article>
+		</main>
 </div>
 <?php
 get_footer();

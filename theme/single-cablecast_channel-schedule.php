@@ -3,30 +3,39 @@
 get_header();
 global $wp_query;
 $channel_slug = get_query_var('cablecast_channel');
-$channel_page = get_query_var('channel_page');
+$channel_page = get_query_var('channel_page'); 
+$permalink = get_permalink(); // Retrieve post permalink?>
 
-if ($channel_page == 'schedule') {
-    $permalink = get_permalink(); // Retrieve post permalink
-    
-    echo '<div class="schedule-page-nagivation"><a href="/channels" class="!text-brand-accent hover:underline">« Back to Channels</a>';
+<main id="main">
+    <article>
+        <div class="page-title accent-color">
+            <h2 class="text-center title-text-color"><?php echo esc_html($channel_slug)?> Schedule</h2>
+            <?php if ($channel_page == 'schedule') {
+                echo '<a href="' . $permalink . 'watch" class="watch-button text-center grow rounded secondary-button px-2 py-2 text-sm font-semibold text-white shadow-sm">Watch ' . $channel_slug . '</a>';
+             } ?>
+        </div>
 
-    echo '<a href="' . $permalink . 'watch" class="!text-brand-accent hover:underline capitalize">Watch ' . $channel_slug . ' »</a></div>';
+        <div class="schedule-page-info-container">
 
-    // Load and display schedule content for this channel
-    echo '<h2 class="page-title text-center">' . esc_html($channel_slug) . ' Schedule</h2>';
+            <?php if ($channel_page == 'schedule') {
 
-    // Display content added through WordPress editor
-    if (have_posts()) {
-        while (have_posts()) { ?>
+        echo '<div class="schedule-page-nagivation"><a href="/channels" class="!text-brand-accent hover:underline">« Back to Channels</a></div>';
+        // Display content added through WordPress editor
+        if (have_posts()) {
+            while (have_posts()) { ?>
 
-<div class="schedule-content-container">
+            <div class="schedule-content-container">
 
-    <?php the_post();
-            the_content(); ?>
-</div>
-<?php }
-    }
-}
+                <?php the_post();
+                the_content(); ?>
+            </div>
+            <?php }
+        }
+    }?>
 
-get_footer();
+        </div>
+        <article>
+</main>
+
+<?php get_footer();
 ?>

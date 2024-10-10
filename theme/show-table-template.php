@@ -1,10 +1,14 @@
 <?php
+/*
+Template Name: Show Table View
+*/
+// Start the WordPress session
 get_header();
 ?>
 <main id="main">
 <article>
     <div class="accent-color page-title">
-        <h2 class="text-center title-text-color mb-5">SHOWS</h2>
+        <h2 class="text-center title-text-color mb-5">SHOWS LIST</h2>
         <!-- Always display the search header and input -->
         <div class="search-container w-full text-center pb-5">
             
@@ -25,7 +29,7 @@ get_header();
         // Get the value of the category parameter from the URL
         $category = sanitize_text_field($_GET['category']); // Sanitize the input
         // Construct the shortcode with the category parameter
-        $shortcode = '[display_shows_by_category category="' . esc_attr($category) . '"]';
+        $shortcode = '[list_shows_by_category category="' . esc_attr($category) . '"]';
         // Output the shortcode
         echo '<div id="category-content" class="mt-4">' . do_shortcode($shortcode) . '</div>';
     }
@@ -39,7 +43,7 @@ get_header();
             // Get all categories
             $categories = get_categories(array(
                 'taxonomy'   => 'category',
-                'hide_empty' => false, // Include categories with no posts
+                'hide_empty' => true, // Exclude categories with no posts
             ));
 
             // Paginate categories
@@ -53,7 +57,7 @@ get_header();
             // Loop through each category and display shortcode for each
             for ($i = $offset; $i < min($offset + $posts_per_page, $total_categories); $i++) {
                 // Construct the shortcode with the dynamic category value
-                $shortcode = '[display_shows_by_category category="' . esc_attr($categories[$i]->name) . '"]';
+                $shortcode = '[list_shows_by_category category="' . esc_attr($categories[$i]->name) . '"]';
                 // Output the shortcode
                 echo do_shortcode($shortcode);
             }

@@ -31,6 +31,9 @@ module.exports = {
 		// Add Tailwind Typography (via _tw fork).
 		require('@_tw/typography'),
 
+		// Add Tailwind Forms
+		require('@tailwindcss/forms'),
+
 		// Extract colors and widths from `theme.json`.
 		require('@_tw/themejson'),
 
